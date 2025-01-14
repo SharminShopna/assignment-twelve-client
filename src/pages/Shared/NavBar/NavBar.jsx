@@ -45,8 +45,8 @@ const NavBar = () => {
         </>
       );
     return (
-        <div className="w-full justify-center flex bg-lime-600">
-            <div className="pt-5 fixed w-full bg-lime-600 top-0 z-50 backdrop-filter backdrop-blur-lg bg-opacity-30 ">
+        <div className="w-full justify-center flex">
+            <div className="pt-5 fixed w-full bg-lime-200 top-0 z-50 backdrop-filter backdrop-blur-lg bg-opacity-30 ">
       <div className="navbar max-w-6xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">

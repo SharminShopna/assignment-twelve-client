@@ -3,11 +3,15 @@ import Footer from "../pages/Shared/Footer/Footer";
 import NavBar from "../pages/Shared/NavBar/NavBar";
 
 
+
 const Main = () => {
     return (
         <div>
             <NavBar></NavBar>
+            
+            <div className="w-11/12 mx-auto">
             <Outlet></Outlet>
+            </div>
             <Footer></Footer>
         </div>
     );

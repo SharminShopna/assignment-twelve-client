@@ -7,8 +7,9 @@ import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
 import logInLottie from "../../assets/lottie/login.json"; 
 import useAuth from "../../hooks/useAuth";
-import { auth } from "../../firebase/firebase.config"; 
+// import { auth } from "../../firebase/firebase.config"; 
 import Lottie from "react-lottie";
+import auth from "../../firebase/firebase.config";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -61,7 +62,7 @@ const Login = () => {
     return (
         <>
             <Helmet>
-                <title>Login | TutorBooking</title>
+                <title>House Box | Login</title>
                 <meta name="description" content="Login page for TutorBooking" />
             </Helmet>
 

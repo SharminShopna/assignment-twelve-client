@@ -1,0 +1,83 @@
+[
+    {
+      "id": 1,
+      "name": "Luxury Villa",
+      "description": "A luxurious villa with modern amenities and a stunning view of the ocean.",
+      "location": "Beverly Hills, CA",
+      "price": 450000,
+      "image": "https://i.ibb.co.com/FqR4jtj/IMG-4525.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Cozy Cottage",
+      "description": "A small, cozy cottage in the countryside, perfect for a peaceful retreat.",
+      "location": "Lake District, UK",
+      "price": 300000,
+      "image": "https://i.ibb.co.com/K9R94Ws/IMG-4526.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Modern Apartment",
+      "description": "A sleek, modern apartment located in the heart of Manhattan, ideal for city living.",
+      "location": "Manhattan, NY",
+      "price": 500000,
+      "image": "https://i.ibb.co.com/FH9mn99/IMG-4527.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Beachfront Mansion",
+      "description": "A grand mansion located right on the beach, offering both luxury and privacy.",
+      "location": "Malibu, CA",
+      "price": 550000,
+      "image": "https://i.ibb.co.com/D7pW0xd/IMG-4528.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Mountain Chalet",
+      "description": "A beautiful chalet with a fireplace and panoramic views of the surrounding mountains.",
+      "location": "Aspen, CO",
+      "price": 480000,
+      "image": "https://i.ibb.co.com/3C2brcz/IMG-4530.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Urban Penthouse",
+      "description": "A stylish penthouse with rooftop access and incredible views of the skyline.",
+      "location": "Chicago, IL",
+      "price": 600000,
+      "image": "https://i.ibb.co.com/Sw8j1wx/IMG-4531.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Suburban Family Home",
+      "description": "A spacious family home in a quiet suburban neighborhood, with a large backyard.",
+      "location": "Scottsdale, AZ",
+      "price": 650000,
+      "image": "https://i.ibb.co.com/WP58nK7/IMG-4533.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Luxury Loft",
+      "description": "A luxurious loft with high ceilings and an open floor plan, perfect for modern living.",
+      "location": "San Francisco, CA",
+      "price": 700000,
+      "image": "https://i.ibb.co.com/Ntfhkf5/IMG-4534.jpg"
+    },
+    {
+      "id": 9,
+      "name": "City Center Studio",
+      "description": "A cozy studio apartment located in the city center, ideal for urban dwellers.",
+      "location": "London, UK",
+      "price": 750000,
+      "image": "https://i.ibb.co.com/G91btrT/IMG-4536.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Countryside Estate",
+      "description": "A stunning estate surrounded by lush green fields and large open spaces.",
+      "location": "Napa Valley, CA",
+      "price": 800000,
+      "image": "https://i.ibb.co.com/pb7RszL/IMG-4538.jpg"
+    }
+  ]
+  

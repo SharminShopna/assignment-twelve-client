@@ -1,16 +1,15 @@
-import {  NavLink} from "react-router-dom";
+import {  Link, NavLink, useLocation} from "react-router-dom";
 import logo from "../../../assets/house.png";
-// import "../App.css";
-// import { useContext, useState } from "react";
-// import { AuthContext } from "../providers/AuthProvider";
-// import { FaRegCircleUser } from "react-icons/fa6";
-// import { FaSun, FaMoon } from "react-icons/fa";
+ import "../../../../src/App.css";
+ 
+ import { FaRegCircleUser } from "react-icons/fa6";
+//  import { FaSun, FaMoon } from "react-icons/fa";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
+import useAuth from "../../../hooks/useAuth";
 
 const NavBar = () => {
-//     const { user, logOut, isDarkMode, setIsDarkMode } = useContext(AuthContext);
-//   const location = useLocation();
+    const { user, logOut } = useAuth()
     const links = (
         <>
           <li>
@@ -85,29 +84,29 @@ const NavBar = () => {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
 
-        {/* <div className="navbar-end space-x-2">
+        <div className="navbar-end space-x-2">
           {user && user?.email ? (
             <div className="text-center space-x-2 image">
               <img className="w-10 h-10 rounded-full" src={user?.photoURL} alt="" />
               <p className="name">{user.displayName}</p>
             </div>
           ) : (
-            <p className="text-3xl text-blue-900">
+            <p className="text-3xl text-lime-700">
               <FaRegCircleUser />
             </p>
           )}
 
           {user && user?.email ? (
-            <button onClick={logOut} className="btn bg-blue-900 text-white">
+            <button onClick={logOut} className="btn bg-lime-700 text-white">
               Logout
             </button>
           ) : (
             <>
-              <Link to="/auth/login" className="btn bg-blue-900 text-white" data-tooltip-id="my-tooltip"
+              <Link to="/login" className="btn bg-lime-700 text-white" data-tooltip-id="my-tooltip"
                 data-tooltip-content="Please use your correct email and password">
                 Login
               </Link>
-              <NavLink to="/auth/register" className="btn bg-blue-900 text-white" data-tooltip-id="my-tooltip"
+              <NavLink to="/register" className="btn bg-lime-700 text-white" data-tooltip-id="my-tooltip"
                 data-tooltip-content="Please Register with your personal information">
                 Register
               </NavLink>
@@ -115,12 +114,12 @@ const NavBar = () => {
           )}
 
           
-          {location.pathname === "/" && (
+          {/* {location.pathname === "/" && (
             <button onClick={toggleDarkMode} className="btn bg-blue-900 text-white">
               {isDarkMode ? <FaSun /> : <FaMoon />}
             </button>
-          )}
-        </div> */}
+          )} */}
+        </div> 
       </div>
     </div>
     <Tooltip id="my-tooltip" />

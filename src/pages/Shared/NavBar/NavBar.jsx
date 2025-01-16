@@ -19,7 +19,7 @@ const NavBar = () => {
             <a>All Properties</a>
           </li>
           <li>
-            <a>Dashboard</a>
+            <NavLink to='/dashboard'>Dashboard</NavLink>
           </li>
           {/* <li>
             <NavLink to="/contact">Contact</NavLink>
@@ -73,7 +73,7 @@ const NavBar = () => {
             </ul>
           </div>
           <div className="flex gap-1 text-center items-center justify-center">
-            <img className="w-14 h-14 rounded-full bg-lime-700 p-3" src={logo} alt="" />
+            <img className="w-14 h-14 rounded-full bg-lime-700 p-3 border" src={logo} alt="" />
             <h2 className="text-2xl font-semibold hidden md:block">
               HOUSEBOX
             </h2>

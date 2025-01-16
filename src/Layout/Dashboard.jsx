@@ -16,7 +16,7 @@ const Dashboard = () => {
                             to='/dashboard/agentProfile' 
                             className={({ isActive }) => 
                                 `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
-                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-600'
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
                                 }`
                             }
                         >
@@ -29,7 +29,7 @@ const Dashboard = () => {
                             to='/dashboard/addProperty' 
                             className={({ isActive }) => 
                                 `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
-                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-600'
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
                                 }`
                             }
                         >
@@ -42,7 +42,7 @@ const Dashboard = () => {
                             to='/dashboard/myAgentProperty' 
                             className={({ isActive }) => 
                                 `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
-                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-600'
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
                                 }`
                             }
                         >
@@ -55,7 +55,7 @@ const Dashboard = () => {
                             to='/dashboard/agentSoldProperty' 
                             className={({ isActive }) => 
                                 `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
-                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-600'
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
                                 }`
                             }
                         >
@@ -68,7 +68,7 @@ const Dashboard = () => {
                             to='/dashboard/agentRequestProp' 
                             className={({ isActive }) => 
                                 `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
-                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-600'
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
                                 }`
                             }
                         >

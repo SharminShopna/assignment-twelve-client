@@ -7,11 +7,11 @@ import { Helmet } from "react-helmet";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-// import { auth } from "../../firebase/firebase.config";
 import useAuth from "../../hooks/useAuth";
 import Lottie from "react-lottie";
 import registerLottie from "../../assets/lottie/register.json";
 import auth from "../../firebase/firebase.config";
+import axios from "axios";
 
 const Register = () => {
   const PasswordValid = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -19,14 +19,16 @@ const Register = () => {
   const { createUser, setUser, updateUserProfile, isDarkMode } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData(e.target);
-    const name = form.get("name");
-    const photo = form.get("photo");
-    const email = form.get("email");
-    const password = form.get("password");
 
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const imageInput = form.image;
+
+    // Validate password
     if (!PasswordValid.test(password)) {
       Swal.fire({
         title: "Error!",
@@ -35,45 +37,80 @@ const Register = () => {
       });
       return;
     }
-    createUser(email, password)
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        Swal.fire({
-          title: "Good job!",
-          text: "Successfully Registered",
-          icon: "success",
-        });
 
-        updateUserProfile({ displayName: name, photoURL: photo })
-          .then(() => {
-            setUser({ displayName: name, photoURL: photo });
-            navigate("/");
-          })
-          .catch((err) => {
-            Swal.fire({
-              title: "Error!",
-              text: `Failed to update profile: ${err.message}`,
-              icon: "error",
-            });
-          });
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Error!",
-          text: error.message,
-          icon: "error",
-        });
+    // Validate file input
+    if (!imageInput.files || imageInput.files.length === 0) {
+      Swal.fire({
+        title: "Error!",
+        text: "Please select an image.",
+        icon: "error",
       });
+      return;
+    }
+
+    const imageFile = imageInput.files[0];
+
+    // Check file size (limit to 2MB)
+    if (imageFile.size > 2 * 1024 * 1024) {
+      Swal.fire({
+        title: "Error!",
+        text: "Image size exceeds 2MB.",
+        icon: "error",
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    try {
+      // Upload image to imgbb
+      const { data } = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const imageUrl = data?.data?.url;
+
+      // Create user in Firebase
+      const result = await createUser(email, password);
+      const user = result.user;
+
+      // Update user profile with name and photo
+      await updateUserProfile({
+        displayName: name,
+        photoURL: imageUrl,
+      });
+
+      setUser({ displayName: name, photoURL: imageUrl });
+      Swal.fire({
+        title: "Success!",
+        text: "Successfully Registered",
+        icon: "success",
+      });
+      navigate("/");
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+      Swal.fire({
+        title: "Error!",
+        text: error.response?.data?.error?.message || error.message,
+        icon: "error",
+      });
+    }
   };
 
   const provider = new GoogleAuthProvider();
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(() => {
         Swal.fire({
           title: "Success!",
-          text: "Successfully Google SignIn",
+          text: "Successfully signed in with Google.",
           icon: "success",
         });
       })
@@ -126,7 +163,7 @@ const Register = () => {
                 <input
                   name="name"
                   type="text"
-                  placeholder="name"
+                  placeholder="Name"
                   className={`input input-bordered ${
                     isDarkMode ? "text-white bg-gray-700" : "text-black"
                   }`}
@@ -134,18 +171,18 @@ const Register = () => {
                 />
               </div>
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Photo URL</span>
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">Select Image</span>
+                  </div>
+                  <input
+                    required
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    className="file-input file-input-bordered w-full max-w-xs"
+                  />
                 </label>
-                <input
-                  name="photo"
-                  type="text"
-                  placeholder="Photo-url"
-                  className={`input input-bordered ${
-                    isDarkMode ? "text-white bg-gray-700" : "text-black"
-                  }`}
-                  required
-                />
               </div>
               <div className="form-control">
                 <label className="label">
@@ -154,7 +191,7 @@ const Register = () => {
                 <input
                   name="email"
                   type="email"
-                  placeholder="email"
+                  placeholder="Email"
                   className={`input input-bordered ${
                     isDarkMode ? "text-white bg-gray-700" : "text-black"
                   }`}
@@ -168,7 +205,7 @@ const Register = () => {
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="password"
+                  placeholder="Password"
                   className={`input input-bordered ${
                     isDarkMode ? "text-white bg-gray-700" : "text-black"
                   }`}

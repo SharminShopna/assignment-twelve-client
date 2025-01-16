@@ -13,6 +13,7 @@ import AddProperty from "../pages/Dashboard/AddProperty/AddProperty";
 import MyAgentProperties from "../pages/Dashboard/MyAgentProperties/MyAgentProperties";
 import AgentSoldProperties from "../pages/Dashboard/AgentSoldProperties/AgentSoldProperties";
 import AgentRequestedProp from "../pages/Dashboard/AgentRequestedProp/AgentRequestedProp";
+import PrivateRouter from "./PrivateRoute";
 
   export const router = createBrowserRouter([
     {
@@ -31,12 +32,16 @@ import AgentRequestedProp from "../pages/Dashboard/AgentRequestedProp/AgentReque
         {
           path:'register',
           element:<Register></Register>
-        }
+        },
+        
       ]
     },
+    
     {
       path:'dashboard',
-      element: <Dashboard></Dashboard>,
+      element: (
+        <PrivateRouter><Dashboard></Dashboard></PrivateRouter>
+      ),
       children:[
         {
           path:'agentProfile',

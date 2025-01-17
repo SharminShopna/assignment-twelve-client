@@ -9,14 +9,33 @@ import Swal from "sweetalert2";
 
 const AddProperty = () => {
     const { user } = useAuth();
-    const axiosSecure = useAxiosSecure()
+    const axiosSecure = useAxiosSecure();
     const [location, setLocation] = useState("");
-    const [uploadImage,setUploadImage] = useState({name:'upload Image'})
-    const [loading, setLoading] = useState(false)
+    const [uploadImage, setUploadImage] = useState({ name: "Upload Image" });
+    const [loading, setLoading] = useState(false);
+
+    // Function to add property
+    const handleAddProperty = async (propertyData) => {
+        try {
+            const response = await axiosSecure.post("/property", propertyData);
+            console.log("Property added", response.data);
+
+            Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: `${propertyData.title} Added Successfully`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        } catch (err) {
+            console.error("Error adding property", err);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+
         const form = e.target;
         const title = form.title.value;
         const location = form.location.value;
@@ -31,44 +50,33 @@ const AddProperty = () => {
             email: user?.email,
         };
 
-        // Create Property data object
+        // Property data object
         const propertyData = {
             title,
             location,
             price,
             image: imageUrl,
-            agent
-        }
-        console.table(propertyData)
+            agent,
+        };
 
-        // save Property in DB
-        try{
-             await axiosSecure.post('/property',propertyData)
-             Swal.fire({
-                position: "top-center",
-                icon: "success",
-                title: `${propertyData.title} Added Successfully`,
-                showConfirmButton: false,
-                timer: 1500
-              });
+        // console.table(propertyData);
 
-        }
-        catch(err){
-            console.log(err)
-        } finally{
-            setLoading(false)
-        }
+        // Call handleAddProperty
+        await handleAddProperty(propertyData);
 
-
+        setLoading(false);
     };
 
     return (
         <>
             <Helmet>
-                <title>House Box | AddProperty</title>
-                <meta name="description" content="Helmet application" />
+                <title>House Box | Add Property</title>
+                <meta name="description" content="Add a new property to the system" />
             </Helmet>
-            <SectionTitle heading="Let’s Add a New Property!" subHeading="Enter details to list your property"></SectionTitle>
+            <SectionTitle
+                heading="Let’s Add a New Property!"
+                subHeading="Enter details to list your property"
+            ></SectionTitle>
             <div className="w-full min-h-[600px] flex flex-col justify-center items-center text-gray-800 rounded-xl">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -101,7 +109,7 @@ const AddProperty = () => {
                                     value={location}
                                     onChange={(e) => setLocation(e.target.value)}
                                 >
-                                    <option value="" disabled selected>
+                                    <option value="" disabled>
                                         Select property location
                                     </option>
                                     <option value="Dhaka">Dhaka</option>
@@ -115,17 +123,17 @@ const AddProperty = () => {
                                 </select>
                             </div>
 
-                            {/* Price Range */}
+                            {/* Price */}
                             <div className="space-y-1 text-sm">
                                 <label htmlFor="price" className="block text-gray-600">
-                                    Price Range
+                                    Price
                                 </label>
                                 <input
                                     className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
                                     name="price"
                                     id="price"
                                     type="number"
-                                    placeholder="Enter price range"
+                                    placeholder="Enter price"
                                     required
                                 />
                             </div>
@@ -142,7 +150,7 @@ const AddProperty = () => {
                                     name="agentName"
                                     id="agentName"
                                     type="text"
-                                    value={user?.displayName || ''}
+                                    value={user?.displayName || ""}
                                     readOnly
                                 />
                             </div>
@@ -157,7 +165,7 @@ const AddProperty = () => {
                                     name="agentEmail"
                                     id="agentEmail"
                                     type="email"
-                                    value={user?.email || ''}
+                                    value={user?.email || ""}
                                     readOnly
                                 />
                             </div>
@@ -168,7 +176,7 @@ const AddProperty = () => {
                                     <div className="flex flex-col w-max mx-auto text-center">
                                         <label>
                                             <input
-                                            onChange={e => setUploadImage(e.target.files[0])}
+                                                onChange={(e) => setUploadImage(e.target.files[0])}
                                                 className="text-sm cursor-pointer w-36 hidden"
                                                 type="file"
                                                 name="image"
@@ -183,23 +191,14 @@ const AddProperty = () => {
                                     </div>
                                 </div>
                             </div>
-                            {
-                                uploadImage.size &&
-                                <p>Image Size: {uploadImage.size} Bytes</p>
-                            }
+                            {uploadImage.size && <p>Image Size: {uploadImage.size} Bytes</p>}
 
                             {/* Submit Button */}
                             <button
                                 type="submit"
                                 className="w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-700"
                             >
-                               { loading? (
-                                <TbFidgetSpinner className='animate-spin m-auto'  />
-                               ):(
-                                'Add Property'
-                               )
-                                
-                               }
+                                {loading ? <TbFidgetSpinner className="animate-spin m-auto" /> : "Add Property"}
                             </button>
                         </div>
                     </div>
@@ -208,4 +207,5 @@ const AddProperty = () => {
         </>
     );
 };
+
 export default AddProperty;

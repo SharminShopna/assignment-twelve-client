@@ -51,13 +51,26 @@ const Login = () => {
     const handleGoogleSignIn = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
-                console.log("Successfully Google Signed In", result);
+                const user = result.user;
+                setUser(user);
+    
+                Swal.fire({
+                    title: "Logged in successfully!",
+                    text: `Welcome ${user.displayName || "User"}!`,
+                    icon: "success",
+                    didClose: () => navigate("/"),
+                });
             })
             .catch((error) => {
-                console.error(error);
-                alert("Error during Google Sign-In");
+                console.error("Google Sign-In Error:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: error.message,
+                });
             });
     };
+    
 
     return (
         <>

@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import HeroSection from "../../../components/HeroSection";
 import HouseSection from "../../../components/HouseSection";
 import RealEstateCard from "../../../components/RealEstateCard";
+import Advertisement from "../Advertisement";
 
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
       </Helmet>
         <div className="">
         <Banner></Banner>
+        <Advertisement></Advertisement>
         <HouseSection></HouseSection>
         <HeroSection></HeroSection>
         <RealEstateCard></RealEstateCard>

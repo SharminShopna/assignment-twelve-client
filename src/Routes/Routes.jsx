@@ -14,6 +14,7 @@ import MyAgentProperties from "../pages/Dashboard/MyAgentProperties/MyAgentPrope
 import AgentSoldProperties from "../pages/Dashboard/AgentSoldProperties/AgentSoldProperties";
 import AgentRequestedProp from "../pages/Dashboard/AgentRequestedProp/AgentRequestedProp";
 import PrivateRouter from "./PrivateRoute";
+import PropertyDetails from "../pages/PropertyDetails";
 
   export const router = createBrowserRouter([
     {
@@ -33,6 +34,12 @@ import PrivateRouter from "./PrivateRoute";
           path:'register',
           element:<Register></Register>
         },
+        {
+          path:'propDetails',
+          element:(
+          <PrivateRouter><PropertyDetails></PropertyDetails></PrivateRouter>
+          )
+        }
         
       ]
     },
@@ -62,7 +69,8 @@ import PrivateRouter from "./PrivateRoute";
         {
           path: 'agentRequestProp',
           element: <AgentRequestedProp></AgentRequestedProp>
-        }
+        },
+       
 
        ]
     }

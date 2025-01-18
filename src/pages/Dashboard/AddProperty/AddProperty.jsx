@@ -11,7 +11,9 @@ const AddProperty = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [location, setLocation] = useState("");
-    const [uploadImage, setUploadImage] = useState({ name: "Upload Image" });
+    const [uploadImage, setUploadImage] = useState({
+        image: { name: "Upload Image" }
+    });
     const [loading, setLoading] = useState(false);
 
     // Function to add property
@@ -40,6 +42,7 @@ const AddProperty = () => {
         const title = form.title.value;
         const location = form.location.value;
         const price = parseFloat(form.price.value);
+        const description = form.description.value;
         const image = form.image.files[0];
         const imageUrl = await imageUpload(image);
 
@@ -55,11 +58,10 @@ const AddProperty = () => {
             title,
             location,
             price,
+            description,  
             image: imageUrl,
             agent,
         };
-
-        // console.table(propertyData);
 
         // Call handleAddProperty
         await handleAddProperty(propertyData);
@@ -137,6 +139,20 @@ const AddProperty = () => {
                                     required
                                 />
                             </div>
+
+                            {/* Property Description */}
+                            <div className="space-y-1 text-sm">
+                                <label htmlFor="description" className="block text-gray-600">
+                                    Property Description
+                                </label>
+                                <textarea
+                                    className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                                    name="description"
+                                    id="description"
+                                    placeholder="Enter property description"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div className="space-y-6 flex flex-col">
@@ -176,7 +192,7 @@ const AddProperty = () => {
                                     <div className="flex flex-col w-max mx-auto text-center">
                                         <label>
                                             <input
-                                                onChange={(e) => setUploadImage(e.target.files[0])}
+                                                onChange={(e) => setUploadImage({image:e.target.files[0],url:URL.createObjectURL(e.target.files[0])})}
                                                 className="text-sm cursor-pointer w-36 hidden"
                                                 type="file"
                                                 name="image"
@@ -185,13 +201,18 @@ const AddProperty = () => {
                                                 hidden
                                             />
                                             <div className="bg-lime-700 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500">
-                                                {uploadImage.name}
+                                                {uploadImage?.image?.name}
                                             </div>
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            {uploadImage.size && <p>Image Size: {uploadImage.size} Bytes</p>}
+                            {uploadImage && uploadImage?.image?.size && (
+                                <div className="flex gap-5 items-center">
+                                    <img className="w-24" src={uploadImage?.url} alt="" />
+                                    <p>Image Size: {uploadImage?.image?.size} Bytes</p>
+                                </div>
+                            )}
 
                             {/* Submit Button */}
                             <button

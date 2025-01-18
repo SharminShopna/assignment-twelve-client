@@ -18,20 +18,9 @@ const Dashboard = () => {
       <NavBar></NavBar>
         <div className="flex mt-24">
             <div className="w-64 min-h-screen bg-lime-700 pt-12">
+                <h2 className="text-center text-white text-2xl pt-8 pb-12 font-bold">Agent Dashboard</h2>
                 <ul className="property p-4 text-gray-100 space-y-2">
-                    <li>
-                        <NavLink 
-                            to='/dashboard/agentProfile' 
-                            className={({ isActive }) => 
-                                `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
-                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
-                                }`
-                            }
-                        >
-                            <CgProfile />
-                            Agent Profile
-                        </NavLink>
-                    </li>
+                    
                     <li>
                         <NavLink 
                             to='/dashboard/addProperty' 
@@ -84,20 +73,46 @@ const Dashboard = () => {
                             Requested Properties
                         </NavLink>
                     </li>
-                    <div className="space-y-12">
+                    <div className="space-y-8">
                         <br></br>
                     <div className="divider">OR</div>
                     <li>
                         <NavLink 
-                            to='/' 
+                            to='/dashboard/agentProfile' 
                             className={({ isActive }) => 
                                 `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
                                     isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
                                 }`
                             }
                         >
-                            <IoMdHome />
-                           Home
+                            <CgProfile />
+                            Admin Profile
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to='/dashboard/agentProfile' 
+                            className={({ isActive }) => 
+                                `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                }`
+                            }
+                        >
+                            <CgProfile />
+                            Agent Profile
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to='/dashboard/agentProfile' 
+                            className={({ isActive }) => 
+                                `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                }`
+                            }
+                        >
+                            <CgProfile />
+                            User Profile
                         </NavLink>
                     </li>
                     </div>

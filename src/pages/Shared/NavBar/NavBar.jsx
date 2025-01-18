@@ -87,7 +87,7 @@ const NavBar = () => {
         <div className="navbar-end space-x-2">
           {user && user?.email ? (
             <div className="text-center space-x-2 image">
-              <img className="w-10 h-10 rounded-full" src={user?.photoURL} alt="" />
+              <img referrerpolicy="no-referrer" className="w-10 h-10 rounded-full" src={user?.photoURL} alt="" />
               <p className="name">{user.displayName}</p>
             </div>
           ) : (

@@ -4,11 +4,10 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 const AdvCard = ({ property }) => {
-    const { _id, image, location, price, isVerified } = property;
+    const { _id, image, location, price, isVerified } = property || {};
 
     return (
-        <Link
-            to={`/property/${_id}`}
+        <div
             className="col-span-1 cursor-pointer group shadow-xl p-3 rounded-xl"
         >
             <div className="flex flex-col gap-2 w-full">
@@ -53,15 +52,15 @@ const AdvCard = ({ property }) => {
                 </div>
 
                 {/* Property Details */}
-                <div className="font-semibold text-lg flex items-center"><IoLocationOutline /> {location}</div>
-                <div className="font-semibold text-lg flex items-center"><BsCurrencyDollar /> {price}</div>
+                <div className="font-semibold text-lg flex items-center gap-1"><IoLocationOutline /> {location}</div>
+                <div className="font-semibold text-lg flex items-center gap-1"><BsCurrencyDollar /> {price}</div>
                 <div className="mt-2">
-                    <button className="px-4 py-2 bg-lime-700 text-white rounded hover:bg-blue-600">
+                     <Link to="/propDetails" className="px-4 py-2 bg-lime-700 text-white rounded hover:bg-lime-900"> 
                         Details
-                    </button>
+                    </Link>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 

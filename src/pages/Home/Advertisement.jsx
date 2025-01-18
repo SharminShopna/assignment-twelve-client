@@ -21,7 +21,7 @@ const Advertisement = () => {
                 subHeading="Discover Hot Listings, Limited-Time Offers, and Unmissable Opportunities!"
             ></SectionTitle>
             {properties && properties.length > 0 ? (
-               <div className='pt-12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5'>
+               <div className='pt-12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5'>
                  {
                     properties.map(property =><AdvCard key={property._id} property={property}></AdvCard>)
                  }

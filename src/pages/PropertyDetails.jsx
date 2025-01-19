@@ -2,7 +2,7 @@ import SectionTitle from '../components/SectionTitle';
 import useAuth from '../hooks/useAuth';
 import Loading from '../components/Loading';
 import { Helmet } from 'react-helmet';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { MdOutlineDescription } from 'react-icons/md';
@@ -34,6 +34,7 @@ const PropertyDetails = () => {
          const response = await axios.post(
              'http://localhost:5000/wishlist',
              {
+                userId: user.uid,
                 userName: user.displayName,
                 propertyId: property._id,
                 image: property.image, 
@@ -130,6 +131,7 @@ const PropertyDetails = () => {
                                 Add To Wishlist
                             </button>
                             <button className="btn bg-lime-700 text-white hover:bg-lime-900">Add a Review</button>
+                            <Link to="/" className="btn bg-lime-700 text-white hover:bg-lime-900">Go Home</Link>
                         </div>
                     </div>
                 </div>

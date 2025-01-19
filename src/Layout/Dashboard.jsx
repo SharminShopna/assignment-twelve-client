@@ -8,6 +8,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import NavBar from "../pages/Shared/NavBar/NavBar";
 import SectionTitle from "../components/SectionTitle";
 import { SiWish } from "react-icons/si";
+import { FaSellcast } from "react-icons/fa6";
 
 const Dashboard = () => {
     return (
@@ -85,6 +86,19 @@ const Dashboard = () => {
                         >
                             <SiWish />
                             Wishlist
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to='/dashboard/propBought' 
+                            className={({ isActive }) => 
+                                `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                }`
+                            }
+                        >
+                            <FaSellcast />
+                            Property Bought
                         </NavLink>
                     </li>
                     <div className="space-y-8">

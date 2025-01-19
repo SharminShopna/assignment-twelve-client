@@ -16,6 +16,7 @@ import AgentRequestedProp from "../pages/Dashboard/AgentRequestedProp/AgentReque
 import PrivateRouter from "./PrivateRoute";
 import PropertyDetails from "../pages/PropertyDetails";
 import Wishlist from "../pages/User/Wishlist";
+import PropBought from "../pages/User/PropBought";
 
   export const router = createBrowserRouter([
     {
@@ -51,6 +52,7 @@ import Wishlist from "../pages/User/Wishlist";
         <PrivateRouter><Dashboard></Dashboard></PrivateRouter>
       ),
       children:[
+        // Agent related
         {
           path:'agentProfile',
           element: <AgentProfile></AgentProfile>
@@ -71,10 +73,15 @@ import Wishlist from "../pages/User/Wishlist";
           path: 'agentRequestProp',
           element: <AgentRequestedProp></AgentRequestedProp>
         },
+        // user related
         {
           path: 'wishList',
           element: <Wishlist></Wishlist>
         },
+        {
+          path: 'propBought',
+          element: <PropBought></PropBought>
+        }
        
 
        ]

@@ -10,6 +10,7 @@ import SectionTitle from "../components/SectionTitle";
 import { SiWish } from "react-icons/si";
 import { FaSellcast } from "react-icons/fa6";
 import Footer from "../pages/Shared/Footer/Footer";
+import { MdOutlineReviews } from "react-icons/md";
 
 const Dashboard = () => {
     return (
@@ -100,6 +101,19 @@ const Dashboard = () => {
                         >
                             <FaSellcast />
                             Property Bought
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to='/dashboard/myReviews' 
+                            className={({ isActive }) => 
+                                `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                }`
+                            }
+                        >
+                            <MdOutlineReviews />
+                            My Reviews
                         </NavLink>
                     </li>
                     <div className="space-y-8">

@@ -17,6 +17,7 @@ import PrivateRouter from "./PrivateRoute";
 import PropertyDetails from "../pages/PropertyDetails";
 import Wishlist from "../pages/User/Wishlist";
 import PropBought from "../pages/User/PropBought";
+import MyReviews from "../pages/User/MyReviews";
 
   export const router = createBrowserRouter([
     {
@@ -81,6 +82,10 @@ import PropBought from "../pages/User/PropBought";
         {
           path: 'propBought',
           element: <PropBought></PropBought>
+        },
+        {
+          path: 'myReviews',
+          element: <MyReviews></MyReviews>
         }
        
 

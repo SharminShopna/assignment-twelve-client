@@ -7,6 +7,7 @@ import { LuTableProperties } from "react-icons/lu";
 import { NavLink, Outlet } from "react-router-dom";
 import NavBar from "../pages/Shared/NavBar/NavBar";
 import SectionTitle from "../components/SectionTitle";
+import { SiWish } from "react-icons/si";
 
 const Dashboard = () => {
     return (
@@ -71,6 +72,19 @@ const Dashboard = () => {
                         >
                             <IoMdGitPullRequest />
                             Requested Properties
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to='/dashboard/wishList' 
+                            className={({ isActive }) => 
+                                `flex font-semibold items-center gap-2 px-4 py-2 rounded ${
+                                    isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                }`
+                            }
+                        >
+                            <SiWish />
+                            Wishlist
                         </NavLink>
                     </li>
                     <div className="space-y-8">

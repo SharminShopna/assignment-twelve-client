@@ -61,8 +61,6 @@ const Login = () => {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
             setUser(user);
-
-            // Send Google user data to backend (you can skip this if no backend token is required)
             const response = await axios.post("http://localhost:5000/jwt", { email: user.email });
 
             // Get JWT token and store it in localStorage

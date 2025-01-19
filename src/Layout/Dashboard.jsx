@@ -9,6 +9,7 @@ import NavBar from "../pages/Shared/NavBar/NavBar";
 import SectionTitle from "../components/SectionTitle";
 import { SiWish } from "react-icons/si";
 import { FaSellcast } from "react-icons/fa6";
+import Footer from "../pages/Shared/Footer/Footer";
 
 const Dashboard = () => {
     return (
@@ -152,6 +153,7 @@ const Dashboard = () => {
                 <Outlet />
             </div>
         </div>
+        <Footer></Footer>
         </>
     );
 };

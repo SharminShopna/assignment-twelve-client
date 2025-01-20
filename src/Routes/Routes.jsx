@@ -18,6 +18,7 @@ import PropertyDetails from "../pages/PropertyDetails";
 import Wishlist from "../pages/User/Wishlist";
 import PropBought from "../pages/User/PropBought";
 import MyReviews from "../pages/User/MyReviews";
+import MakeOffer from "../pages/User/MakeOffer";
 
   export const router = createBrowserRouter([
     {
@@ -86,6 +87,10 @@ import MyReviews from "../pages/User/MyReviews";
         {
           path: 'myReviews',
           element: <MyReviews></MyReviews>
+        },
+        {
+          path: 'makeOffer',
+          element: <MakeOffer></MakeOffer>
         }
        
 

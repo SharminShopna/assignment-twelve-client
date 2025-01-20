@@ -76,8 +76,6 @@ const Register = () => {
       );
 
       const imageUrl = data?.data?.url;
-
-      // Create user in Firebase
       const result = await createUser(email, password);
       const user = result.user;
 

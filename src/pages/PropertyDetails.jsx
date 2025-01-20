@@ -83,40 +83,39 @@ const PropertyDetails = () => {
     // Add review mutation
     const addReviewMutation = useMutation({
         mutationFn: async () => {
-            const token = localStorage.getItem('token');
-            if (!token) throw new Error('JWT token is missing');
-
-            const response = await axios.post(
-                'http://localhost:5000/reviews',
-                {
-                    propertyId: id,
-                    reviewText,
-                    rating,
-                    userName: user?.displayName || 'Anonymous',
-                    // userName: user?.displayName || 'Anonymous',
-                },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            return response.data;
+          const token = localStorage.getItem('token');
+          if (!token) throw new Error('JWT token is missing');
+      
+          const response = await axios.post(
+            'http://localhost:5000/reviews',
+            {
+              propertyId: id, // Ensure propertyId is sent
+              reviewText,
+              rating,
+            },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          return response.data;
         },
         onSuccess: () => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Review added successfully!',
-                timer: 1500,
-                showConfirmButton: false,
-            });
-            setIsReviewModalOpen(false);
-            queryClient.invalidateQueries(['reviews', id]);
+          Swal.fire({
+            icon: 'success',
+            title: 'Review added successfully!',
+            timer: 1500,
+            showConfirmButton: false,
+          });
+          setIsReviewModalOpen(false);
+          queryClient.invalidateQueries(['reviews', id]);
         },
         onError: () => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Failed to add review!',
-                text: 'Please try again.',
-            });
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed to add review!',
+            text: 'Please try again.',
+          });
         },
-    });
+      });
+      
 
     // Handlers
     const handleAddToWishlist = () => {

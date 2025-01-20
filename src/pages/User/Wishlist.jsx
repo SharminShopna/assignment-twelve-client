@@ -5,10 +5,12 @@ import Loading from '../../components/Loading';
 import useAuth from '../../hooks/useAuth';
 import SectionTitle from '../../components/SectionTitle';
 import { Helmet } from 'react-helmet';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Wishlist = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // Fetch wishlist
   const { data: wishlist = [], isLoading } = useQuery({
@@ -17,7 +19,7 @@ const Wishlist = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('JWT token is missing');
 
-      const { data } = await axios.get(`http://localhost:5000/wishlist/${user?.uid}`, { 
+      const { data } = await axios.get(`http://localhost:5000/wishlist/${user?.uid}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +41,7 @@ const Wishlist = () => {
   const removeFromWishlistMutation = useMutation({
     mutationFn: async (propertyId) => {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/wishlist/${user?.uid}/${propertyId}`, { 
+      await axios.delete(`http://localhost:5000/wishlist/${user?.uid}/${propertyId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,6 +71,10 @@ const Wishlist = () => {
     removeFromWishlistMutation.mutate(propertyId);
   };
 
+  const handleMakeOffer = (property) => {
+    navigate('/dashboard/makeOffer', { state: { property } });
+  };
+
   if (isLoading) return <Loading />;
 
   return (
@@ -76,32 +82,42 @@ const Wishlist = () => {
       <Helmet>
         <title>House Box | Wishlist</title>
       </Helmet>
-      <div className=''>
+      <div>
+        <SectionTitle heading="Your Wishlist" subHeading="Explore the properties you’ve saved for a future dream home" />
 
-      <SectionTitle heading="Your Wishlist" subHeading="Explore the properties you’ve saved for a future dream home" />
-
-
-      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {wishlist.map((property) => (
-          <div key={property._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-            <img src={property.image} alt={property.title} className="w-full h-56 object-cover" />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">{property.title}</h3>
-              <p className="text-sm text-gray-500">{property.location}</p>
-              <p className="text-sm text-gray-500 mt-1">Price: {property.price}</p>
-              <div className="flex justify-between mt-4">
-                <button
-                  onClick={() => handleRemove(property._id)}
-                  className="btn bg-red-600 text-white hover:bg-red-800"
-                >
-                  Remove
-                </button>
-                <button className="btn bg-lime-700 text-white hover:bg-lime-900">Make an Offer</button>
+        <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {wishlist.map((property) => (
+            <div key={property._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
+              <img src={property.image} alt={property.title} className="w-full h-56 object-cover" />
+              <div className="p-4">
+                <h3 className="text-lg font-semibold">{property.title}</h3>
+                <p className="text-sm text-gray-500">{property.location}</p>
+                <p className="text-sm text-gray-500 mt-1">Price: {property.price}</p>
+                <div className="flex items-center mt-3">
+                  <img src={property.agent.image} alt={property.agent.name} className="w-8 h-8 rounded-full mr-2" />
+                  <p className="text-sm font-medium">{property.agent.name}</p>
+                </div>
+                <p className={`mt-2 text-sm font-medium ${property.verificationStatus ? 'text-green-600' : 'text-red-600'}`}>
+                  {property.verificationStatus ? 'Verified' : 'Not Verified'}
+                </p>
+                <div className="flex justify-between mt-4">
+                  <button
+                    onClick={() => handleRemove(property._id)}
+                    className="btn bg-red-600 text-white hover:bg-red-800"
+                  >
+                    Remove
+                  </button>
+                  <button
+                    onClick={() => handleMakeOffer(property)}
+                    className="btn bg-lime-700 text-white hover:bg-lime-900"
+                  >
+                    Make an Offer
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </div>
     </>
   );

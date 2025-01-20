@@ -77,12 +77,12 @@ const AddProperty = () => {
                 <title>House Box | Add Property</title>
                 <meta name="description" content="Add a new property to the system" />
             </Helmet>
-            
+
             <div className="w-full min-h-[600px] flex flex-col justify-center items-center text-gray-800 rounded-xl">
-            <SectionTitle
-                heading="Let’s Add a New Property!"
-                subHeading="Enter details to list your property"
-            ></SectionTitle>
+                <SectionTitle
+                    heading="Let’s Add a New Property!"
+                    subHeading="Enter details to list your property"
+                ></SectionTitle>
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-10">
                         <div className="space-y-6">
@@ -158,6 +158,7 @@ const AddProperty = () => {
                             </div>
 
                             {/* Quantity */}
+                            {/* Quantity */}
                             <div className="space-y-1 text-sm">
                                 <label htmlFor="quantity" className="block text-gray-600">
                                     Quantity
@@ -169,8 +170,15 @@ const AddProperty = () => {
                                     type="number"
                                     placeholder="Available quantity"
                                     required
+                                    min="0"
+                                    max="10"
+                                    onInput={(e) => {
+                                        if (e.target.value > 10) e.target.value = 10;
+                                        if (e.target.value < 0) e.target.value = 0;
+                                    }}
                                 />
                             </div>
+
                         </div>
 
                         <div className="space-y-6 flex flex-col">

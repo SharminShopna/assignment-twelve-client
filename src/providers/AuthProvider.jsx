@@ -44,10 +44,11 @@ const AuthProvider = ({ children }) => {
             .then((userCredential) => {
                 setUser(userCredential.user);
                 setLoading(false);
+                return userCredential;
             })
             .catch((error) => {
                 console.error('Login error: ', error);
-                setLoading(false);
+                setLoading(false); 
             });
     };
 

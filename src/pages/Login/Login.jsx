@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -23,20 +23,18 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-
+    
         try {
-            // Login with Firebase (email and password)
             const result = await userLogin(email, password);
-            const user = result.user;
+            const user = result?.user;
+            if (!user) throw new Error('User not found after login');
             setUser(user);
-
+    
             // Send credentials to the backend to get JWT token
             const response = await axios.post("http://localhost:5000/jwt", { email, password });
             const { token } = response.data;
-
-            // Store JWT token in localStorage
             localStorage.setItem("token", token);
-
+    
             Swal.fire({
                 title: "Good job!",
                 text: "Login successfully",
@@ -50,10 +48,11 @@ const Login = () => {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Something went wrong!",
+                text: error.message || "Something went wrong!",
             });
         }
     };
+    
 
     const provider = new GoogleAuthProvider();
     const handleGoogleSignIn = async () => {

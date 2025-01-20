@@ -68,8 +68,36 @@ const Wishlist = () => {
   });
 
   const handleRemove = (propertyId) => {
-    removeFromWishlistMutation.mutate(propertyId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Remove it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeFromWishlistMutation.mutate(propertyId, {
+          onSuccess: () => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "The property has been removed from your wishlist.",
+              icon: "success"
+            });
+          },
+          onError: () => {
+            Swal.fire({
+              title: "Error!",
+              text: "Something went wrong, please try again.",
+              icon: "error"
+            });
+          }
+        });
+      }
+    });
   };
+
 
   const handleMakeOffer = (property) => {
     navigate('/dashboard/makeOffer', { state: { property } });
@@ -100,7 +128,7 @@ const Wishlist = () => {
                 <p className={`mt-2 text-sm font-medium ${property.verificationStatus ? 'text-green-600' : 'text-red-600'}`}>
                   {property.verificationStatus ? 'Verified' : 'Not Verified'}
                 </p>
-                <div className="flex justify-between mt-4">
+                <div className="flex justify-between gap-1 mt-4">
                   <button
                     onClick={() => handleRemove(property._id)}
                     className="btn bg-red-600 text-white hover:bg-red-800"

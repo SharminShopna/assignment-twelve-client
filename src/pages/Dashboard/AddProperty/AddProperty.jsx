@@ -77,11 +77,12 @@ const AddProperty = () => {
                 <title>House Box | Add Property</title>
                 <meta name="description" content="Add a new property to the system" />
             </Helmet>
+            
+            <div className="w-full min-h-[600px] flex flex-col justify-center items-center text-gray-800 rounded-xl">
             <SectionTitle
                 heading="Let’s Add a New Property!"
                 subHeading="Enter details to list your property"
             ></SectionTitle>
-            <div className="w-full min-h-[600px] flex flex-col justify-center items-center text-gray-800 rounded-xl">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-10">
                         <div className="space-y-6">

@@ -6,13 +6,18 @@ import Loading from '../../components/Loading';
 import AdvCard from '../../components/CardSection/AdvCard';
 
 const Advertisement = () => {
-    const {data:properties, isLoading} = useQuery({
-        queryKey:['property'],
-        queryFn: async() =>{
-            const {data} = await axios('http://localhost:5000/properties')
-            return data
+    const { data: properties, isLoading, error } = useQuery({
+        queryKey: ['property'],
+        queryFn: async () => {
+          try {
+            const { data } = await axios('http://localhost:5000/properties');
+            return data;
+          } catch (err) {
+            console.error('Error fetching properties:', err);
+            throw err;
+          }
         },
-    })
+      });
     if(isLoading) return <Loading></Loading>
     return (
         <>

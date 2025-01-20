@@ -154,11 +154,14 @@ const PropertyDetails = () => {
                         <p className="text-lg flex gap-2 text-gray-600 mb-4">
                             <MdOutlineDescription size={24} /> {property.description}
                         </p>
-                        <p className="text-2xl flex gap-2 items-center font-semibold text-gray-800 mb-4">
-                            Price: <FaDollarSign /> {property.price}
+                        <p className="text-2xl flex gap-1 items-center font-semibold text-gray-800 mb-4">
+                            Price: {property.price}<FaDollarSign />
                         </p>
-                        <div className="text-2xl flex gap-2 items-center font-semibold text-gray-800 mb-4">
-                            <IoLocationOutline /> {property.location}
+                        <p className="text-2xl flex gap-2 items-center font-semibold text-gray-800 mb-4">
+                            Quantity: {property?.quantity || '0'} 
+                        </p>
+                        <div className="text-2xl flex gap-1 items-center font-semibold text-gray-800 mb-4">
+                        Location: {property.location}<IoLocationOutline />
                         </div>
                         <p className="text-lg text-gray-500 mb-4">Agent: {property.agent?.name}</p>
 

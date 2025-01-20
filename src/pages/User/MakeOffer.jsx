@@ -4,10 +4,12 @@ import { Helmet } from 'react-helmet';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import SectionTitle from '../../components/SectionTitle';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const MakeOffer = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure()
     const [offerAmount, setOfferAmount] = useState('');
     const [totalQuantity, setTotalQuantity] = useState(1);
     const [buyingDate, setBuyingDate] = useState('');
@@ -24,6 +26,8 @@ const MakeOffer = () => {
         quantity: 1,
         agent: property?.agent?.email,
         location: property?.location,
+        image: property?.image,
+        title: property?.title,
         date: '',
         status: 'Pending',
     });
@@ -73,8 +77,15 @@ const MakeOffer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.table(offerInfo); 
+        console.table(offerInfo);
+        
+        // post request to db
+  
         try {
+            await axiosSecure.post('/offer', offerInfo)
+
+        // decrease quantity from property collection
+        
             Swal.fire(
                 'Offer Submitted Successfully!',
                 'Your offer is being reviewed by the agent.',
@@ -88,7 +99,7 @@ const MakeOffer = () => {
     return (
         <>
             <Helmet>
-                <title>House Box | Offer</title>
+                <title>House Box | Make Offer</title>
             </Helmet>
             <SectionTitle heading="Make an Offer" subHeading="Enter your offer within the agent's price range" />
             <div className="container mx-auto p-6 max-w-md md:max-w-2xl lg:max-w-4xl ">

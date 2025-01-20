@@ -42,6 +42,7 @@ const AddProperty = () => {
         const title = form.title.value;
         const location = form.location.value;
         const price = parseFloat(form.price.value);
+        const quantity = parseInt(form.quantity.value);
         const description = form.description.value;
         const image = form.image.files[0];
         const imageUrl = await imageUpload(image);
@@ -58,7 +59,8 @@ const AddProperty = () => {
             title,
             location,
             price,
-            description,  
+            quantity,
+            description,
             image: imageUrl,
             agent,
         };
@@ -81,7 +83,7 @@ const AddProperty = () => {
             ></SectionTitle>
             <div className="w-full min-h-[600px] flex flex-col justify-center items-center text-gray-800 rounded-xl">
                 <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-10">
                         <div className="space-y-6">
                             {/* Property Title */}
                             <div className="space-y-1 text-sm">
@@ -141,7 +143,7 @@ const AddProperty = () => {
                             </div>
 
                             {/* Property Description */}
-                            <div className="space-y-1 text-sm">
+                            <div className="space-y-2 text-sm">
                                 <label htmlFor="description" className="block text-gray-600">
                                     Property Description
                                 </label>
@@ -150,6 +152,21 @@ const AddProperty = () => {
                                     name="description"
                                     id="description"
                                     placeholder="Enter property description"
+                                    required
+                                />
+                            </div>
+
+                            {/* Quantity */}
+                            <div className="space-y-1 text-sm">
+                                <label htmlFor="quantity" className="block text-gray-600">
+                                    Quantity
+                                </label>
+                                <input
+                                    className="w-full px-4 py-3 text-gray-800 border border-lime-700 focus:outline-lime-500 rounded-md bg-white"
+                                    name="quantity"
+                                    id="quantity"
+                                    type="number"
+                                    placeholder="Available quantity"
                                     required
                                 />
                             </div>
@@ -192,7 +209,7 @@ const AddProperty = () => {
                                     <div className="flex flex-col w-max mx-auto text-center">
                                         <label>
                                             <input
-                                                onChange={(e) => setUploadImage({image:e.target.files[0],url:URL.createObjectURL(e.target.files[0])})}
+                                                onChange={(e) => setUploadImage({ image: e.target.files[0], url: URL.createObjectURL(e.target.files[0]) })}
                                                 className="text-sm cursor-pointer w-36 hidden"
                                                 type="file"
                                                 name="image"

@@ -15,6 +15,7 @@ const MakeOffer = () => {
     const [buyingDate, setBuyingDate] = useState('');
     const location = useLocation();
     const property = location.state?.property;
+    // const { refetch } = location.state || {};
     const [offerInfo, setOfferInfo] = useState({
         buyer: {
             name: user?.displayName,
@@ -78,14 +79,17 @@ const MakeOffer = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.table(offerInfo);
-        
+
         // post request to db
-  
+
         try {
             await axiosSecure.post('/offer', offerInfo)
 
-        // decrease quantity from property collection
-        
+            // decrease quantity from property collection
+            await axiosSecure.patch(`/property/quantity/${property?._id}`, {
+                quantityToUpdate: totalQuantity,
+            })
+
             Swal.fire(
                 'Offer Submitted Successfully!',
                 'Your offer is being reviewed by the agent.',
@@ -140,7 +144,8 @@ const MakeOffer = () => {
                                 readOnly
                                 className="input input-bordered w-full"
                             />
-                        </div>
+                         </div>
+                            
                         <div>
                             <label className="block font-semibold">Offer Amount</label>
                             <input
@@ -188,7 +193,7 @@ const MakeOffer = () => {
                             <input
                                 type="date"
                                 value={buyingDate}
-                                onChange={e => {setBuyingDate(e.target.value)}}
+                                onChange={e => { setBuyingDate(e.target.value) }}
                                 className="input input-bordered w-full"
                                 required
                             />

@@ -22,7 +22,7 @@ const PropertyDetails = () => {
     const [rating, setRating] = useState(5);
 
     // Fetch property details
-    const { data: property, isLoading } = useQuery({
+    const { data: property, isLoading, refetch } = useQuery({
         queryKey: ['property', id],
         queryFn: async () => {
             const { data } = await axios.get(`http://localhost:5000/properties/${id}`);
@@ -61,6 +61,7 @@ const PropertyDetails = () => {
                 timer: 1500,
             });
             queryClient.invalidateQueries(['wishlist']);
+            navigate('/dashboard/wishList', { state: { property, refetch } })
         },
         onError: (error) => {
             if (error.response?.status === 401) {

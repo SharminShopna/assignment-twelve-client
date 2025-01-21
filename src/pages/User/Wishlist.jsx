@@ -5,7 +5,8 @@ import Loading from '../../components/Loading';
 import useAuth from '../../hooks/useAuth';
 import SectionTitle from '../../components/SectionTitle';
 import { Helmet } from 'react-helmet';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
+import { CiLocationOn } from 'react-icons/ci';
 
 const Wishlist = () => {
   const { user } = useAuth();
@@ -116,14 +117,14 @@ const Wishlist = () => {
         <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {wishlist.map((property) => (
             <div key={property._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-              <img src={property.image} alt={property.title} className="w-full h-56 object-cover" />
+              <img src={property?.image} alt={property.title} className="w-full h-56 object-cover" />
               <div className="p-4">
                 <h3 className="text-lg font-semibold">{property.title}</h3>
-                <p className="text-sm text-gray-500">{property.location}</p>
+                <p className="text-sm text-gray-500 flex gap-1 items-center"><CiLocationOn />{property.location}</p>
                 <p className="text-sm text-gray-500 mt-1">Price: {property.price}</p>
                 <div className="flex items-center mt-3">
-                  <img src={property.agent.image} alt={property.agent.name} className="w-8 h-8 rounded-full mr-2" />
-                  <p className="text-sm font-medium">{property.agent.name}</p>
+                  <img src={property?.agent?.image} alt={property?.agent?.name} className="w-8 h-8 rounded-full mr-2" />
+                  <p className="text-sm font-medium">{property?.agent?.name}</p>
                 </div>
                 <p className={`mt-2 text-sm font-medium ${property.verificationStatus ? 'text-green-600' : 'text-red-600'}`}>
                   {property.verificationStatus ? 'Verified' : 'Not Verified'}

@@ -61,7 +61,8 @@ const PropertyDetails = () => {
                 timer: 1500,
             });
             queryClient.invalidateQueries(['wishlist']);
-            navigate('/dashboard/wishList', { state: { property, refetch } })
+            navigate('/dashboard/wishList')
+            // navigate('/dashboard/wishList', { state: { property, refetch } })
         },
         onError: (error) => {
             if (error.response?.status === 401) {

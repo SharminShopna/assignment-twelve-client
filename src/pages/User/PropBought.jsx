@@ -22,7 +22,7 @@ const PropBought = () => {
         },
     })
 
-    console.log(orders)
+    // console.log(orders)
     if (isLoading) return <Loading></Loading>
     return (
         <>
@@ -33,7 +33,7 @@ const PropBought = () => {
                 <SectionTitle heading="Properties Purchased" subHeading="My successful purchases list" />
                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {orders.length > 0 ? (
-                        orders.map((orderData) => (<OrderCard key={orderData._id} orderData={orderData}></OrderCard>   
+                        orders.map((orderData) => (<OrderCard key={orderData._id} orderData={orderData} refetch={refetch}></OrderCard>   
                         ))
                     ) : (
                         <p className="text-center text-gray-600 col-span-full">

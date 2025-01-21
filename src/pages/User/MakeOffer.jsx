@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
@@ -88,6 +88,7 @@ const MakeOffer = () => {
             // decrease quantity from property collection
             await axiosSecure.patch(`/property/quantity/${property?._id}`, {
                 quantityToUpdate: totalQuantity,
+                status: 'decrease',
             })
 
             Swal.fire(
@@ -95,7 +96,8 @@ const MakeOffer = () => {
                 'Your offer is being reviewed by the agent.',
                 'success'
             );
-            navigate('/dashboard/wishlist');
+            navigate('/dashboard/propBought')
+            
         } catch (error) {
             Swal.fire('Failed to submit the offer!', '', 'error');
         }

@@ -1,8 +1,48 @@
+import { useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
+import DeleteModal from "../Modal/DeleteModal";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
-const OrderCard = ({ orderData }) => {
-    const { image, title, location, agentName, price, quantity, _id, status } = orderData
+const OrderCard = ({ orderData, refetch }) => {
+    let [isOpen, setIsOpen] = useState(false)
+  const closeModal = () => setIsOpen(false)
+  const axiosSecure = useAxiosSecure()
+    const { image, title, location, agentName, price, quantity, _id, status, propertyId } = orderData
+
+    // handle order delete and cancel
+    const handleDelete = async()=>{
+        try{
+        //  fetch delete request
+          await axiosSecure.delete(`/orders/${_id}`) 
+
+          // increase quantity from property collection
+          await axiosSecure.patch(`/property/quantity/${propertyId}`, {
+            quantityToUpdate: quantity,
+            status: 'increase',
+        })
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Offer Order Cancelled",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          refetch()
+        }
+        catch(err){
+            console.log(err);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.res.data || "An unexpected error occurred",
+            });
+        }
+        finally{
+            closeModal()
+        }
+    }
 
     return (
         <div>
@@ -47,15 +87,16 @@ const OrderCard = ({ orderData }) => {
                                 Pay
                             </button>
                         )}
-                        <button className="btn bg-red-700 text-white">Cancel</button>
+                           <button onClick={() => setIsOpen(true)}
+                        className='relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-white leading-tight'
+                    >
+                        <span className='absolute cursor-pointer inset-0 bg-red-700 opacity-50 rounded-full'></span>
+                        <span className='relative cursor-pointer'>Cancel</span>
+                    </button>
+                    <DeleteModal handleDelete={handleDelete} isOpen={isOpen} closeModal={closeModal}></DeleteModal> 
 
                     </div>
-                    {/* <button
-                        className='relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-lime-900 leading-tight'
-                    >
-                        <span className='absolute cursor-pointer inset-0 bg-red-200 opacity-50 rounded-full'></span>
-                        <span className='relative cursor-pointer'>Cancel</span>
-                    </button>  */}
+                   
                 </div>
             </div>
         </div>

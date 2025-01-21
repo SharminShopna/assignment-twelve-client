@@ -69,8 +69,8 @@ const MakeOffer = () => {
         }
 
         const numericValue = parseInt(value, 10);
-        if (numericValue < 15000 || numericValue > 500000) {
-            setOfferError('Offer amount must be between 15,000 and 500,000.');
+        if (numericValue < 1000 || numericValue > 500000) {
+            setOfferError('Offer amount must be between 1,000 and 500,000.');
         } else {
             setOfferError('');
         }
@@ -105,8 +105,9 @@ const MakeOffer = () => {
             <Helmet>
                 <title>House Box | Make Offer</title>
             </Helmet>
-            <SectionTitle heading="Make an Offer" subHeading="Enter your offer within the agent's price range" />
+            
             <div className="container mx-auto p-6 max-w-md md:max-w-2xl lg:max-w-4xl ">
+            <SectionTitle heading="Make an Offer" subHeading="Enter your offer within the agent's price range" />
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
@@ -152,7 +153,7 @@ const MakeOffer = () => {
                                 type="number"
                                 value={offerAmount}
                                 onChange={handleOfferChange}
-                                placeholder="Enter an amount (e.g., 15000+)"
+                                placeholder="Enter an amount (e.g., 1000+)"
                                 className={`input input-bordered w-full ${offerError ? 'border-red-500' : ''}`}
                                 required
                             />

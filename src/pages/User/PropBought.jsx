@@ -27,11 +27,11 @@ const PropBought = () => {
     return (
         <>
             <Helmet>
-                <title>House Box | Wishlist</title>
+                <title>House Box | Bought Property</title>
             </Helmet>
             <div className="container mx-auto px-4 py-8">
                 <SectionTitle heading="Properties Purchased" subHeading="My successful purchases list" />
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {orders.length > 0 ? (
                         orders.map((orderData) => (<OrderCard key={orderData._id} orderData={orderData}></OrderCard>   
                         ))

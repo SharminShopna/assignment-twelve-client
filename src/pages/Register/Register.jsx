@@ -30,77 +30,78 @@ const Register = () => {
 
     // Validate password
     if (!PasswordValid.test(password)) {
-      Swal.fire({
-        title: "Error!",
-        text: "Password is invalid. It should be at least 6 characters, with at least one uppercase letter.",
-        icon: "error",
-      });
-      return;
+        Swal.fire({
+            title: "Error!",
+            text: "Password is invalid. It should be at least 6 characters, with at least one uppercase letter.",
+            icon: "error",
+        });
+        return;
     }
 
     // Validate file input
     if (!imageInput.files || imageInput.files.length === 0) {
-      Swal.fire({
-        title: "Error!",
-        text: "Please select an image.",
-        icon: "error",
-      });
-      return;
+        Swal.fire({
+            title: "Error!",
+            text: "Please select an image.",
+            icon: "error",
+        });
+        return;
     }
 
     const imageFile = imageInput.files[0];
 
     // Check file size (limit to 2MB)
     if (imageFile.size > 2 * 1024 * 1024) {
-      Swal.fire({
-        title: "Error!",
-        text: "Image size exceeds 2MB.",
-        icon: "error",
-      });
-      return;
+        Swal.fire({
+            title: "Error!",
+            text: "Image size exceeds 2MB.",
+            icon: "error",
+        });
+        return;
     }
 
     const formData = new FormData();
     formData.append("image", imageFile);
 
     try {
-      // Upload image to imgbb
-      const { data } = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+        // Upload image to imgbb
+        const { data } = await axios.post(
+            `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
 
-      const imageUrl = data?.data?.url;
-      const result = await createUser(email, password);
-      const user = result.user;
+        const imageUrl = data?.data?.url;
 
-      // Update user profile with name and photo
-      await updateUserProfile({
-        displayName: name,
-        photoURL: imageUrl,
-      });
+        // Create a new user
+        const result = await createUser(email, password, name);
 
-      setUser({ displayName: name, photoURL: imageUrl });
-      Swal.fire({
-        title: "Success!",
-        text: "Successfully Registered",
-        icon: "success",
-      });
-      navigate("/");
+        // Update user profile with name and photo
+        await updateUserProfile({
+            displayName: name,
+            photoURL: imageUrl,
+        });
+
+        setUser({ displayName: name, photoURL: imageUrl });
+        Swal.fire({
+            title: "Success!",
+            text: "Successfully Registered",
+            icon: "success",
+        });
+        navigate("/");
     } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
-      Swal.fire({
-        title: "Error!",
-        text: error.response?.data?.error?.message || error.message,
-        icon: "error",
-      });
+        Swal.fire({
+            title: "Error!",
+            text: error.message,
+            icon: "error",
+        });
     }
-  };
+};
+
 
   const provider = new GoogleAuthProvider();
   const handleGoogleSignIn = () => {

@@ -16,26 +16,34 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     // Create a new user
-    const createUser = (email, password, displayName) => {
+    const createUser = async (email, password, displayName) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Set the displayName explicitly after user creation
-                return updateProfile(userCredential.user, {
-                    displayName: displayName,
-                }).then(() => {
-                    setUser({
-                        ...userCredential.user,
-                        displayName: displayName, // Ensure it's updated in the state
-                    });
-                    setLoading(false);
-                });
-            })
-            .catch((error) => {
-                console.error('Error creating user: ', error);
-                setLoading(false);
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            
+            // Update the user's profile with displayName
+            await updateProfile(userCredential.user, { displayName });
+            
+            setUser({
+                ...userCredential.user,
+                displayName, 
             });
+    
+            return userCredential;
+        } catch (error) {
+            console.error('Error creating user:', error.message);
+    
+            // Handle email already in use error
+            if (error.code === 'auth/email-already-in-use') {
+                throw new Error('The email address is already in use by another account.');
+            } else {
+                throw new Error(error.message);
+            }
+        } finally {
+            setLoading(false);
+        }
     };
+    
 
     // Login user
     const userLogin = (email, password) => {

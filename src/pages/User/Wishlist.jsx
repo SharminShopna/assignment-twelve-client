@@ -121,7 +121,7 @@ const Wishlist = () => {
               <div className="p-4">
                 <h3 className="text-lg font-semibold">{property.title}</h3>
                 <p className="text-sm text-gray-500 flex gap-1 items-center"><CiLocationOn />{property.location}</p>
-                <p className="text-sm text-gray-500 mt-1">Price: {property.price}</p>
+                <p className="text-sm text-gray-500 mt-1">Price: {property.minPrice} - {property.maxPrice}</p>
                 <div className="flex items-center mt-3">
                   <img src={property?.agent?.image} alt={property?.agent?.name} className="w-8 h-8 rounded-full mr-2" />
                   <p className="text-sm font-medium">{property?.agent?.name}</p>

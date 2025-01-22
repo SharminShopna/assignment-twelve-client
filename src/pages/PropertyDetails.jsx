@@ -157,7 +157,7 @@ const PropertyDetails = () => {
                             <MdOutlineDescription size={24} /> {property.description}
                         </p>
                         <p className="text-2xl flex gap-1 items-center font-semibold text-gray-800 mb-4">
-                            Price: {property.price}<FaDollarSign />
+                            Price: {property.minPrice} - {property.maxPrice}<FaDollarSign />
                         </p>
                         <p className="text-2xl flex gap-2 items-center font-semibold text-gray-800 mb-4">
                             Quantity: {property?.quantity || '0'} 

@@ -4,7 +4,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 const AdvCard = ({ property }) => {
-    const { _id, image, location, price, isVerified } = property || {};
+    const { _id, image, location, minPrice, maxPrice, isVerified } = property || {};
 
     return (
         <div
@@ -53,7 +53,7 @@ const AdvCard = ({ property }) => {
 
                 {/* Property Details */}
                 <div className="font-semibold text-lg flex items-center gap-1"><IoLocationOutline /> {location}</div>
-                <div className="font-semibold text-lg flex items-center gap-1"><BsCurrencyDollar /> {price}</div>
+                <div className="font-semibold text-lg flex items-center gap-1"><BsCurrencyDollar /> {minPrice} - {maxPrice}</div>
                 <div className="mt-2">
                      <Link to={`/propDetails/${_id}`} className="px-4 py-2 bg-lime-700 text-white rounded hover:bg-lime-900"> 
                         Details

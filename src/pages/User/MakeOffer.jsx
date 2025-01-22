@@ -9,13 +9,12 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 const MakeOffer = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const axiosSecure = useAxiosSecure()
+    const axiosSecure = useAxiosSecure();
     const [offerAmount, setOfferAmount] = useState('');
     const [totalQuantity, setTotalQuantity] = useState(1);
     const [buyingDate, setBuyingDate] = useState('');
     const location = useLocation();
     const property = location.state?.property;
-    // const { refetch } = location.state || {};
     const [offerInfo, setOfferInfo] = useState({
         buyer: {
             name: user?.displayName,
@@ -35,7 +34,6 @@ const MakeOffer = () => {
 
     const totalOfferAmount = offerAmount * totalQuantity || 0;
 
-    // Update offerInfo when dependencies change
     useEffect(() => {
         setOfferInfo((prev) => ({
             ...prev,
@@ -63,14 +61,18 @@ const MakeOffer = () => {
     const handleOfferChange = (e) => {
         const value = e.target.value;
         setOfferAmount(value);
+
+        const minPrice = property?.minPrice || 1000;
+        const maxPrice = property?.maxPrice || 500000;
+
         if (value === '' || isNaN(value) || !Number.isInteger(parseFloat(value))) {
-            setOfferError('Offer amount must be an integer starting from 15,000.');
+            setOfferError('Offer amount must be an integer.');
             return;
         }
 
         const numericValue = parseInt(value, 10);
-        if (numericValue < 1000 || numericValue > 500000) {
-            setOfferError('Offer amount must be between 1,000 and 500,000.');
+        if (numericValue < minPrice || numericValue > maxPrice) {
+            setOfferError(`Offer amount must be between ${minPrice.toLocaleString()} and ${maxPrice.toLocaleString()}.`);
         } else {
             setOfferError('');
         }
@@ -78,38 +80,33 @@ const MakeOffer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.table(offerInfo);
-
-        // post request to db
 
         try {
-            await axiosSecure.post('/offer', offerInfo)
-
-            // decrease quantity from property collection
+            await axiosSecure.post('/offer', offerInfo);
             await axiosSecure.patch(`/property/quantity/${property?._id}`, {
                 quantityToUpdate: totalQuantity,
                 status: 'decrease',
-            })
+            });
 
             Swal.fire(
                 'Offer Submitted Successfully!',
                 'Your offer is being reviewed by the agent.',
                 'success'
             );
-            navigate('/dashboard/propBought')
-            
+            navigate('/dashboard/propBought');
         } catch (error) {
             Swal.fire('Failed to submit the offer!', '', 'error');
         }
     };
+
     return (
         <>
             <Helmet>
                 <title>House Box | Make Offer</title>
             </Helmet>
-            
+
             <div className="container mx-auto p-6 max-w-md md:max-w-2xl lg:max-w-4xl ">
-            <SectionTitle heading="Make an Offer" subHeading="Enter your offer within the agent's price range" />
+                <SectionTitle heading="Make an Offer" subHeading="Enter your offer within the agent's price range" />
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
@@ -142,20 +139,20 @@ const MakeOffer = () => {
                         <div>
                             <label className="block font-semibold">Amount</label>
                             <input
-                                type="number"
-                                value={property?.price}
+                                type="text"
+                                value={`${property?.minPrice || 1000} - ${property?.maxPrice || 10000}`}
                                 readOnly
                                 className="input input-bordered w-full"
                             />
-                         </div>
-                            
+                        </div>
+
                         <div>
                             <label className="block font-semibold">Offer Amount</label>
                             <input
                                 type="number"
                                 value={offerAmount}
                                 onChange={handleOfferChange}
-                                placeholder="Enter an amount (e.g., 1000+)"
+                                placeholder={`Enter an amount between ${property?.minPrice || 1000} and ${property?.maxPrice || 500000}`}
                                 className={`input input-bordered w-full ${offerError ? 'border-red-500' : ''}`}
                                 required
                             />
@@ -212,7 +209,6 @@ const MakeOffer = () => {
                                 readOnly
                             />
                         </div>
-
                     </div>
                     <button type="submit" className="btn bg-lime-700 text-white w-full hover:bg-lime-900 transition-colors">
                         Make Offer

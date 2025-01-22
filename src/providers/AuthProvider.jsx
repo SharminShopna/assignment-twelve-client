@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
                 image: userCredential.user.photoURL || "", 
             };
     
-            await axios.post(`${import.meta.env.VITE_API_URL}/users/${userCredential.user.email}`, userData);
+            await axios.post(`${import.meta.env.VITE_API_URL}/users/${userCredential?.user?.email}`, userData);
     
             setUser({
                 ...userCredential.user,

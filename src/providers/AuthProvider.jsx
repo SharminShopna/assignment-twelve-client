@@ -20,20 +20,23 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            
-            // Update the user's profile with displayName
             await updateProfile(userCredential.user, { displayName });
-            
+            const userData = {
+                name: displayName,
+                email: userCredential.user.email,
+                image: userCredential.user.photoURL || "", 
+            };
+    
+            await axios.post(`${import.meta.env.VITE_API_URL}/users/${userCredential.user.email}`, userData);
+    
             setUser({
                 ...userCredential.user,
-                displayName, 
+                displayName,
             });
     
             return userCredential;
         } catch (error) {
             console.error('Error creating user:', error.message);
-    
-            // Handle email already in use error
             if (error.code === 'auth/email-already-in-use') {
                 throw new Error('The email address is already in use by another account.');
             } else {
@@ -43,6 +46,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     };
+    
     
 
     // Login user
@@ -78,27 +82,26 @@ const AuthProvider = ({ children }) => {
         return updateProfile(auth.currentUser, updateData);
     };
 
-    // Effect to handle user login status and user data
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
-                // Check if displayName is missing and update it if necessary
-                if (!currentUser.displayName) {
-                    await updateProfile(currentUser, {
-                        displayName: 'Default Name', // Set a default name if missing
-                    });
-                    currentUser.displayName = 'Default Name'; // Update the currentUser object
-                }
-
-                // Set the user in state
                 setUser(currentUser);
 
-                // Optionally, save user info to your backend (e.g., MongoDB)
-                await axios.post(`${import.meta.env.VITE_API_URL}/users/${currentUser?.email}`, {
-                    name: currentUser?.displayName,
-                    image: currentUser?.photoURL,
-                    email: currentUser?.email,
-                });
+                // Get JWT token and store it in localStorage
+                const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, { email: currentUser.email });
+                localStorage.setItem('token', data.token);
+
+                // Update or save user data to the database
+                if (currentUser?.displayName && currentUser?.photoURL) {
+                    await axios.post(`${import.meta.env.VITE_API_URL}/users/${currentUser?.email}`, {
+                        name: currentUser?.displayName,
+                        image: currentUser?.photoURL,
+                        email: currentUser?.email,
+                    });
+                }
+            } else {
+                setUser(null);
+                localStorage.removeItem('token');
             }
             setLoading(false);
         });
@@ -106,6 +109,16 @@ const AuthProvider = ({ children }) => {
             unsubscribe();
         };
     }, []);
+
+    // Set axios headers to include JWT token
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axios.defaults.headers.common['Authorization'];
+        }
+    }, [user]);
 
     const authInfo = {
         user,

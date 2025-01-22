@@ -41,7 +41,8 @@ const AddProperty = () => {
         const form = e.target;
         const title = form.title.value;
         const location = form.location.value;
-        const price = parseFloat(form.price.value);
+        const minPrice = parseFloat(form.minPrice.value);
+        const maxPrice = parseFloat(form.maxPrice.value);
         const quantity = parseInt(form.quantity.value);
         const description = form.description.value;
         const image = form.image.files[0];
@@ -58,7 +59,8 @@ const AddProperty = () => {
         const propertyData = {
             title,
             location,
-            price,
+            minPrice,
+            maxPrice,
             quantity,
             description,
             image: imageUrl,
@@ -125,20 +127,37 @@ const AddProperty = () => {
                                     <option value="Rajshahi">Rajshahi</option>
                                     <option value="Rangpur">Rangpur</option>
                                     <option value="Tokyo">Tokyo</option>
+                                    <option value="Kabul">Kabul</option>
+                                    <option value="Vienna">Vienna</option>
                                 </select>
                             </div>
 
-                            {/* Price */}
+                            {/* Minimum Price */}
                             <div className="space-y-1 text-sm">
-                                <label htmlFor="price" className="block text-gray-600">
-                                    Price
+                                <label htmlFor="minPrice" className="block text-gray-600">
+                                    Minimum Price
                                 </label>
                                 <input
                                     className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                                    name="price"
-                                    id="price"
+                                    name="minPrice"
+                                    id="minPrice"
                                     type="number"
-                                    placeholder="Enter price"
+                                    placeholder="Enter minimum price"
+                                    required
+                                />
+                            </div>
+
+                            {/* Maximum Price */}
+                            <div className="space-y-1 text-sm">
+                                <label htmlFor="maxPrice" className="block text-gray-600">
+                                    Maximum Price
+                                </label>
+                                <input
+                                    className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                                    name="maxPrice"
+                                    id="maxPrice"
+                                    type="number"
+                                    placeholder="Enter maximum price"
                                     required
                                 />
                             </div>
@@ -157,7 +176,6 @@ const AddProperty = () => {
                                 />
                             </div>
 
-                            {/* Quantity */}
                             {/* Quantity */}
                             <div className="space-y-1 text-sm">
                                 <label htmlFor="quantity" className="block text-gray-600">
@@ -178,7 +196,6 @@ const AddProperty = () => {
                                     }}
                                 />
                             </div>
-
                         </div>
 
                         <div className="space-y-6 flex flex-col">

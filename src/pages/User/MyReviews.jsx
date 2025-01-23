@@ -76,9 +76,10 @@ const MyReviews = () => {
                 {reviews.map((review) => (
                     <div key={review._id} className="p-4 border rounded shadow">
                         <h2 className="font-bold text-lg">{review.propertyTitle}</h2>
+                        <p className='flex items-center gap-1'><MdOutlinePreview />{review.reviewText}</p>
                         <p>Agent: {review?.property?.agent?.name || 'fahim'}</p>
-                        <p>Review Time: {new Date(review.timestamp).toLocaleString()}</p>
-                        <p><MdOutlinePreview />{review.reviewText}</p>
+                        <p>Time: {new Date(review.timestamp).toLocaleString()}</p>
+                        
                         <button
                             className="btn bg-red-600 text-white hover:bg-red-400 mt-2"
                             onClick={() => handleDelete(review._id)}

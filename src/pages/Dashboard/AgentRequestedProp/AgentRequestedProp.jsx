@@ -14,30 +14,33 @@ const AgentRequestedProp = () => {
       const response = await axios.get('http://localhost:5000/agent-offers', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      console.log('agent-offer', response.data)
+      // console.log('agent-offer', response.data)
       return response.data;
     },
   });
+
 
   // Mutation for updating the status of an offer
   const updateOfferMutation = useMutation({
-    mutationFn: async ({ offerId, action }) => {
+    mutationFn: async ({ _id: offerId, action }) => {
       const response = await axios.patch(
-        `http://localhost:5000/agent/offers/${_id}`,
+        `http://localhost:5000/agent-offers/${offerId}`,
         { status: action },
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
-      );
-
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['offers']);
+      queryClient.invalidateQueries(['offers']); 
     },
   });
 
+  // Handle action (Accept or Reject)
   const handleAction = (offerId, action) => {
-    updateOfferMutation.mutate({ offerId, action });
+    updateOfferMutation.mutate({ _id: offerId, action });
   };
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching offers: {error.message}</div>;
@@ -69,17 +72,37 @@ const AgentRequestedProp = () => {
                 <td className="border border-gray-300 p-2">{offer.buyer.name}</td>
                 <td className="border border-gray-300 p-2">{offer.buyer.email}</td>
                 <td className="border border-gray-300 p-2">${offer.price}</td>
-                <td className="border border-gray-300 p-2">{offer.status}</td>
+                <td
+                  className={`border border-gray-300 p-2 font-semibold ${
+                    offer.status === 'accepted'
+                      ? 'text-green-600'
+                      : offer.status === 'rejected'
+                      ? 'text-red-600'
+                      : 'text-gray-500'
+                  }`}
+                >
+                  {offer.status}
+                </td>
                 <td className="border border-gray-300 p-2">
-                  <button
-                    className="mr-2 p-2 bg-green-500 text-white rounded"
+                <button
+                    className={`mr-2 p-2 rounded ${
+                      offer.status === 'accepted'
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : 'bg-green-600 text-white'
+                    }`}
                     onClick={() => handleAction(offer._id, 'accepted')}
+                    disabled={offer.status === 'accepted'} 
                   >
                     Accept
                   </button>
                   <button
-                    className="p-2 bg-red-500 text-white rounded"
+                    className={`p-2 rounded ${
+                      offer.status === 'rejected'
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : 'bg-red-600 text-white'
+                    }`}
                     onClick={() => handleAction(offer._id, 'rejected')}
+                    disabled={offer.status === 'rejected'} 
                   >
                     Reject
                   </button>

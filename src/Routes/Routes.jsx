@@ -23,6 +23,7 @@ import BecomeAgent from "../pages/Dashboard/BecomeAgent/BecomeAgent";
 import Profile from "../pages/Dashboard/Profile/Profile";
 import AgentRoute from "./AgentRoute";
 import AdminRoute from "./AdminRoute";
+import UpdatePropertyForm from "../pages/Dashboard/UpdatePropertyForm/UpdatePropertyForm";
 
   export const router = createBrowserRouter([
     {
@@ -82,7 +83,15 @@ import AdminRoute from "./AdminRoute";
         },
         {
           path: 'myAgentProperty',
-          element: <MyAgentProperties></MyAgentProperties>
+          element: (
+            <AgentRoute><MyAgentProperties></MyAgentProperties></AgentRoute>
+          )
+        },
+        {
+          path: 'updateProperty/:id',
+          element: (
+            <AgentRoute><UpdatePropertyForm></UpdatePropertyForm></AgentRoute>
+          )
         },
         {
           path:'agentSoldProperty',

@@ -359,3 +359,98 @@ const AddProperty = () => {
 
 export default AddProperty;
 
+
+
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+
+const AgentRequestedProp = () => {
+  const queryClient = useQueryClient();
+  const { data: offers = [], isLoading } = useQuery(['agentOffers'], async () => {
+    const response = await axios.get(`/agent/offers`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return response.data;
+  });
+
+  const updateOfferMutation = useMutation(
+    async ({ offerId, action }) => {
+      const response = await axios.patch(
+        `/agent/offers/${offerId}`,
+        { status: action },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['agentOffers']);
+      },
+    }
+  );
+
+  const handleAction = (offerId, action) => {
+    updateOfferMutation.mutate({ offerId, action });
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Requested/Offered Properties</h1>
+      <table className="min-w-full border-collapse border border-gray-300">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border border-gray-300 p-2">Property Title</th>
+            <th className="border border-gray-300 p-2">Location</th>
+            <th className="border border-gray-300 p-2">Buyer Name</th>
+            <th className="border border-gray-300 p-2">Buyer Email</th>
+            <th className="border border-gray-300 p-2">Offered Price</th>
+            <th className="border border-gray-300 p-2">Status</th>
+            <th className="border border-gray-300 p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {offers.map((offer) => (
+            <tr key={offer._id}>
+              <td className="border border-gray-300 p-2">{offer.propertyTitle}</td>
+              <td className="border border-gray-300 p-2">{offer.propertyLocation}</td>
+              <td className="border border-gray-300 p-2">{offer.buyerName}</td>
+              <td className="border border-gray-300 p-2">{offer.buyerEmail}</td>
+              <td className="border border-gray-300 p-2">${offer.offeredPrice}</td>
+              <td className="border border-gray-300 p-2">{offer.status}</td>
+              <td className="border border-gray-300 p-2">
+                {offer.status === 'pending' && (
+                  <>
+                    <button
+                      onClick={() => handleAction(offer._id, 'accepted')}
+                      className="bg-green-500 text-white px-4 py-1 rounded mr-2"
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={() => handleAction(offer._id, 'rejected')}
+                      className="bg-red-500 text-white px-4 py-1 rounded"
+                    >
+                      Reject
+                    </button>
+                  </>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default AgentRequestedProp;
+
+

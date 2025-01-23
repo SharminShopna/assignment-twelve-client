@@ -6,6 +6,7 @@ import Loading from '../../components/Loading';
 import SectionTitle from '../../components/SectionTitle';
 import { Helmet } from 'react-helmet';
 import useAuth from '../../hooks/useAuth';
+import { MdOutlinePreview } from 'react-icons/md';
 
 const MyReviews = () => {
     const { user } = useAuth();
@@ -75,9 +76,9 @@ const MyReviews = () => {
                 {reviews.map((review) => (
                     <div key={review._id} className="p-4 border rounded shadow">
                         <h2 className="font-bold text-lg">{review.propertyTitle}</h2>
-                        <p>Agent: {review.agentName}</p>
+                        <p>Agent: {review?.property?.agent?.name || 'fahim'}</p>
                         <p>Review Time: {new Date(review.timestamp).toLocaleString()}</p>
-                        <p>{review.reviewText}</p>
+                        <p><MdOutlinePreview />{review.reviewText}</p>
                         <button
                             className="btn bg-red-600 text-white hover:bg-red-400 mt-2"
                             onClick={() => handleDelete(review._id)}

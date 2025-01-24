@@ -59,22 +59,26 @@ const MakeOffer = () => {
     const [offerError, setOfferError] = useState('');
 
     const handleOfferChange = (e) => {
-        const value = e.target.value;
-        setOfferAmount(value);
+        const value = e.target.value.trim();
 
+        // Added range limits based on property price
         const minPrice = property?.minPrice || 1000;
         const maxPrice = property?.maxPrice || 500000;
-
-        if (value === '' || isNaN(value) || !Number.isInteger(parseFloat(value))) {
-            setOfferError('Offer amount must be an integer.');
-            return;
-        }
-
         const numericValue = parseInt(value, 10);
-        if (numericValue < minPrice || numericValue > maxPrice) {
-            setOfferError(`Offer amount must be between ${minPrice.toLocaleString()} and ${maxPrice.toLocaleString()}.`);
+
+        if (
+            isNaN(numericValue) ||
+            !Number.isInteger(numericValue) ||
+            numericValue < minPrice ||
+            numericValue > maxPrice
+        ) {
+            setOfferError(
+                `Offer amount must be an integer between ${minPrice.toLocaleString()} and ${maxPrice.toLocaleString()}.`
+            );
+            setOfferAmount(''); 
         } else {
             setOfferError('');
+            setOfferAmount(numericValue);
         }
     };
 
@@ -152,6 +156,9 @@ const MakeOffer = () => {
                                 type="number"
                                 value={offerAmount}
                                 onChange={handleOfferChange}
+                                step="1" 
+                                min={property?.minPrice || 1000} 
+                                max={property?.maxPrice || 500000} 
                                 placeholder={`Enter an amount between ${property?.minPrice || 1000} and ${property?.maxPrice || 500000}`}
                                 className={`input input-bordered w-full ${offerError ? 'border-red-500' : ''}`}
                                 required
@@ -193,7 +200,9 @@ const MakeOffer = () => {
                             <input
                                 type="date"
                                 value={buyingDate}
-                                onChange={e => { setBuyingDate(e.target.value) }}
+                                onChange={(e) => {
+                                    setBuyingDate(e.target.value);
+                                }}
                                 className="input input-bordered w-full"
                                 required
                             />

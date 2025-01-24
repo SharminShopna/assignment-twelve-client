@@ -47,9 +47,11 @@ const ManageUsers = () => {
                                 <td className="border border-gray-300 px-4 py-2">{userData.email}</td>
                                 <td
                                     className={`border border-gray-300 px-4 py-2 ${
-                                         userData.role === 'agent'
-                                            ? 'text-green-600'
-                                            : 'text-gray-600'
+                                        userData.role === 'agent'
+                                        ? 'text-yellow-600'
+                                        : userData.role === 'admin'
+                                        ? 'text-green-600'
+                                        : 'text-gray-600'
                                     }`}
                                 >
                                     {userData.role}

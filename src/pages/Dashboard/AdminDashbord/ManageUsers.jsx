@@ -1,22 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import SectionTitle from '../../../components/SectionTitle';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
+import UpdateUserModal from '../../../components/Modal/UpdateUserModal';
+import Loading from '../../../components/Loading';
+import Swal from 'sweetalert2';
 
 const ManageUsers = () => {
-    const {user} = useAuth()
+    const { user } = useAuth()
     const axiosSecure = useAxiosSecure();
-    const { data: users = [], isLoading } = useQuery({
+    const [isOpen, setIsOpen] = useState(false)
+    const [userEmail,setUserEmail] = useState('')
+    const { data: users = [], isLoading, refetch } = useQuery({
         queryKey: ['users', user?.email],
         queryFn: async () => {
             const { data } = await axiosSecure(`/all-users/${user?.email}`);
             return data;
         },
     });
+    // console.log(users);
 
-    console.log(users);
+    // handle user role update
+    const updateRole = async (selectedRole, userEmail) => {
+        if (users.role === selectedRole) return; 
+      
+        try {
+           await axiosSecure.patch(`/user/role/${userEmail}`, {
+            role: selectedRole,
+          });
+          Swal.fire({
+            title: "Good job!",
+            text: "Role updated successfully!",
+            icon: "success"
+          });
+        //   console.log(data);
+          refetch()
+        } catch (err) {
+            Swal.fire({
+                title: "Oops!",
+                text: err.response?.data?.message || "Something went wrong!",
+                icon: "error",
+              });
+        //   console.error(err);
+        } finally{
+            setIsOpen(false)
+        }
+      };
+
+    if(isLoading) return <Loading></Loading>
 
     return (
         <>
@@ -46,18 +79,17 @@ const ManageUsers = () => {
                                 <td className="border border-gray-300 px-4 py-2">{userData.name}</td>
                                 <td className="border border-gray-300 px-4 py-2">{userData.email}</td>
                                 <td
-                                    className={`border border-gray-300 px-4 py-2 ${
-                                        userData.role === 'agent'
-                                        ? 'text-yellow-600'
-                                        : userData.role === 'admin'
-                                        ? 'text-green-600'
-                                        : 'text-gray-600'
-                                    }`}
+                                    className={`border border-gray-300 px-4 py-2 ${userData.role === 'agent'
+                                            ? 'text-yellow-600'
+                                            : userData.role === 'admin'
+                                                ? 'text-green-600'
+                                                : 'text-gray-600'
+                                        }`}
                                 >
                                     {userData.role}
                                 </td>
                                 <td className="border text-red-600 border-gray-300 px-4 py-2">
-                                    {userData?.status? (
+                                    {userData?.status ? (
                                         <p
                                             className={`${userData?.status === 'Requested' ? 'text-yellow-600' : 'text-green-600'
                                                 } whitespace-no-wrap`}
@@ -68,59 +100,26 @@ const ManageUsers = () => {
                                         <p className='text-red-600'>Unavailable</p>
                                     )}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 space-x-2">
-                                    <div className="relative inline-block text-left">
-                                        <button
-                                            className="bg-lime-500 text-white px-3 py-1 rounded-xl hover:bg-gray-600"
-                                            type="button"
-                                            aria-haspopup="true"
-                                            aria-expanded="true"
-                                            onClick={(e) => {
-                                                const dropdown = e.currentTarget.nextSibling;
-                                                dropdown.classList.toggle('hidden');
-                                            }}
-                                        >
-                                            Actions
-                                        </button>
-                                        <div className="hidden origin-top-right absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                                            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
-                                                <button
-                                                    data-action="make-admin"
-                                                    data-user-id={userData.id}
-                                                    className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:text-white hover:bg-lime-700"
-                                                    role="menuitem"
-                                                >
-                                                    Make Admin
-                                                </button>
-                                                <button
-                                                    data-action="make-agent"
-                                                    data-user-id={userData.id}
-                                                    className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:text-white hover:bg-lime-700"
-                                                    role="menuitem"
-                                                >
-                                                    Make Agent
-                                                </button>
-                                                {userData.role === 'agent' && (
-                                                    <button
-                                                        data-action="mark-fraud"
-                                                        data-user-id={userData.id}
-                                                        className="block w-full px-4 py-2 text-sm text-left hover:text-white text-gray-700 hover:bg-lime-700"
-                                                        role="menuitem"
-                                                    >
-                                                        Mark as Fraud
-                                                    </button>
-                                                )}
-                                                <button
-                                                    data-action="delete-user"
-                                                    data-user-id={userData.id}
-                                                    className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:text-white hover:bg-lime-700"
-                                                    role="menuitem"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+                                    <span
+                                        onClick={() =>{setUserEmail(userData?.email)
+                                             setIsOpen(true)}}
+                                        className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+                                    >
+                                        <span
+                                            aria-hidden='true'
+                                            className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
+                                        ></span>
+                                        <span className='relative'>Update Role</span>
+                                    </span>
+                                    {/* Modal */}
+                                    <UpdateUserModal
+                                         updateRole={updateRole}
+                                        role={userData?.role}
+                                        isOpen={isOpen}
+                                        setIsOpen={setIsOpen}
+                                        userEmail={userEmail}
+                                    />
                                 </td>
                             </tr>
                         ))}

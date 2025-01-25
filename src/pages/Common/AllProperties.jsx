@@ -29,6 +29,7 @@ const AllProperties = () => {
       <Helmet>
         <title>House Box | All Properties</title>
       </Helmet>
+      <div className='mt-36 my-6'>
       <SectionTitle
         heading="All Properties"
         subHeading="Find your dream property from our exclusive listings."
@@ -44,6 +45,7 @@ const AllProperties = () => {
         ) : (
           <p className="text-center text-gray-500">No verified properties available at the moment.</p>
         )}
+      </div>
       </div>
     </>
   );

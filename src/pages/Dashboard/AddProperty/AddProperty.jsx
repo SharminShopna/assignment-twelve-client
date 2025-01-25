@@ -6,10 +6,12 @@ import { imageUpload } from "../../../api/utils";
 import { TbFidgetSpinner } from "react-icons/tb";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AddProperty = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate()
     const [location, setLocation] = useState("");
     const [uploadImage, setUploadImage] = useState({
         image: { name: "Upload Image" }
@@ -29,6 +31,8 @@ const AddProperty = () => {
                 showConfirmButton: false,
                 timer: 1500,
             });
+            navigate('/dashboard/myAgentProperty')
+
         } catch (err) {
             console.error("Error adding property", err);
         }

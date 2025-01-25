@@ -26,6 +26,8 @@ import AdminRoute from "./AdminRoute";
 import UpdatePropertyForm from "../pages/Dashboard/UpdatePropertyForm/UpdatePropertyForm";
 import ManageProperties from "../pages/Dashboard/AdminDashbord/ManageProperties";
 import AllProperties from "../pages/Common/AllProperties";
+import ManageReviews from "../pages/Dashboard/AdminDashbord/ManageReviews";
+import Advertise from "../pages/Dashboard/AdminDashbord/Advertise";
 
   export const router = createBrowserRouter([
     {
@@ -79,6 +81,18 @@ import AllProperties from "../pages/Common/AllProperties";
           path: 'manageProperty',
           element:(
             <AdminRoute><ManageProperties></ManageProperties></AdminRoute>
+          ),
+        },
+        {
+          path: 'manageReviews',
+          element:(
+            <AdminRoute><ManageReviews></ManageReviews></AdminRoute>
+          ),
+        },
+        {
+          path: 'advertise',
+          element:(
+            <AdminRoute><Advertise></Advertise></AdminRoute>
           ),
         },
         // Agent related

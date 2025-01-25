@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { IoLocationOutline } from 'react-icons/io5';
 import { Helmet } from 'react-helmet';
 import SectionTitle from '../../../components/SectionTitle';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 function MyAgentProperties() {
   const navigate = useNavigate();
@@ -93,17 +93,17 @@ function MyAgentProperties() {
               <p className="text-gray-700 text-base flex items-center gap-1"><IoLocationOutline />{property.location}</p>
               <p className="text-gray-500 text-sm">Agent: {property.agent.name}</p>
               <p className="text-gray-500 text-sm">Price Range: $ {property.minPrice} - {property.maxPrice}</p>
-              <p className={`text-sm ${property.verificationStatus === 'verified'
+              <p className={`text-sm ${property.status === 'verified'
                 ? 'text-green-500'
-                : property.verificationStatus === 'rejected'
+                : property.status === 'rejected'
                   ? 'text-red-500'
                   : 'text-yellow-500'
                 }`}>
-                Status: {property.verificationStatus}
+                Status: {property.status}
               </p>
             </div>
             <div className="px-6 py-4 flex justify-between">
-            {property.verificationStatus !== 'rejected' && (
+            {property.status !== 'rejected' && (
               <button
                 className="btn bg-lime-700 text-white hover:bg-lime-900"
                 onClick={() => handleUpdate(property._id)}

@@ -15,6 +15,8 @@ import { MdOutlineReviews } from "react-icons/md";
 import { FaUserCog } from "react-icons/fa";
 import { BiUser } from "react-icons/bi";
 import useRole from "../hooks/useRole";
+import { IoStarHalfOutline } from "react-icons/io5";
+import { RiAdvertisementLine } from "react-icons/ri";
 
 const Dashboard = () => {
     const [role, isLoading] = useRole()
@@ -55,6 +57,30 @@ const Dashboard = () => {
                                     >
                                         <AiOutlinePropertySafety />
                                         Manage Property
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to='/dashboard/manageReviews'
+                                        className={({ isActive }) =>
+                                            `flex font-semibold items-center gap-2 md:px-4 px-2 md:py-2 rounded ${isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                            }`
+                                        }
+                                    >
+                                        <IoStarHalfOutline className="text-yellow-500" />
+                                        Manage Reviews
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to='/dashboard/advertise'
+                                        className={({ isActive }) =>
+                                            `flex font-semibold items-center gap-2 md:px-4 px-2 md:py-2 rounded ${isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                            }`
+                                        }
+                                    >
+                                        <RiAdvertisementLine />
+                                        Advertise Property
                                     </NavLink>
                                 </li>
                                 {/* profile */}

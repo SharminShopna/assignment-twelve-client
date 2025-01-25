@@ -4,6 +4,8 @@ import axios from 'axios';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Loading from '../../../components/Loading';
 import Swal from 'sweetalert2';
+import SectionTitle from '../../../components/SectionTitle';
+import { Helmet } from 'react-helmet';
 
 
 const ManageProperties = () => {
@@ -93,8 +95,14 @@ const ManageProperties = () => {
     };
 
     return (
+        <>
+         <Helmet>
+        <title>House Box | Manage Property</title>
+        </Helmet>
+      
+        <SectionTitle heading="Manage Properties" subHeading="Approve or Reject Properties" />
+        
         <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">Manage Properties</h2>
             <table className="table-auto w-full border">
                 <thead>
                     <tr>
@@ -155,6 +163,7 @@ const ManageProperties = () => {
                 </tbody>
             </table>
         </div>
+        </>
     );
 };
 

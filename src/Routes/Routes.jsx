@@ -25,6 +25,7 @@ import AgentRoute from "./AgentRoute";
 import AdminRoute from "./AdminRoute";
 import UpdatePropertyForm from "../pages/Dashboard/UpdatePropertyForm/UpdatePropertyForm";
 import ManageProperties from "../pages/Dashboard/AdminDashbord/ManageProperties";
+import AllProperties from "../pages/Common/AllProperties";
 
   export const router = createBrowserRouter([
     {
@@ -49,6 +50,11 @@ import ManageProperties from "../pages/Dashboard/AdminDashbord/ManageProperties"
           element:(
           <PrivateRouter><PropertyDetails></PropertyDetails></PrivateRouter>
           )
+        },
+        {
+          path:'all-properties',
+          element: <AllProperties></AllProperties>,
+          
         }
         
       ]

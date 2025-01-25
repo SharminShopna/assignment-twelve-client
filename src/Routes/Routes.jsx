@@ -24,6 +24,7 @@ import Profile from "../pages/Dashboard/Profile/Profile";
 import AgentRoute from "./AgentRoute";
 import AdminRoute from "./AdminRoute";
 import UpdatePropertyForm from "../pages/Dashboard/UpdatePropertyForm/UpdatePropertyForm";
+import ManageProperties from "../pages/Dashboard/AdminDashbord/ManageProperties";
 
   export const router = createBrowserRouter([
     {
@@ -64,6 +65,12 @@ import UpdatePropertyForm from "../pages/Dashboard/UpdatePropertyForm/UpdateProp
           path: 'manageUsers',
           element:(
             <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
+          ),
+        },
+        {
+          path: 'manageProperty',
+          element:(
+            <AdminRoute><ManageProperties></ManageProperties></AdminRoute>
           ),
         },
         // Agent related

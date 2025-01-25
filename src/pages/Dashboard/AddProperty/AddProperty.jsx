@@ -46,6 +46,7 @@ const AddProperty = () => {
         const quantity = parseInt(form.quantity.value);
         const description = form.description.value;
         const image = form.image.files[0];
+        const status = form.status.value || "pending"; 
         const imageUrl = await imageUpload(image);
 
         // Agent information
@@ -65,6 +66,7 @@ const AddProperty = () => {
             description,
             image: imageUrl,
             agent,
+            status,
         };
 
         // Call handleAddProperty
@@ -228,6 +230,21 @@ const AddProperty = () => {
                                     readOnly
                                 />
                             </div>
+                             {/* Status */}
+                        <div className="space-y-1 text-sm">
+                            <label htmlFor="status" className="block text-gray-600">
+                                Status
+                            </label>
+                            <input
+                                className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                                name="status"
+                                id="status"
+                                type="text"
+                                defaultValue="pending"
+                                placeholder="Enter status (default: pending)"
+                                readOnly
+                            />
+                        </div>
 
                             {/* Property Image */}
                             <div className="p-4 w-full m-auto rounded-lg flex-grow">
@@ -256,7 +273,6 @@ const AddProperty = () => {
                                     <p>Image Size: {uploadImage?.image?.size} Bytes</p>
                                 </div>
                             )}
-
                             {/* Submit Button */}
                             <button
                                 type="submit"

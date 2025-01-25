@@ -45,6 +45,18 @@ const Dashboard = () => {
                                         Manage Users
                                     </NavLink>
                                 </li>
+                                <li>
+                                    <NavLink
+                                        to='/dashboard/manageProperty'
+                                        className={({ isActive }) =>
+                                            `flex font-semibold items-center gap-2 md:px-4 px-2 md:py-2 rounded ${isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                            }`
+                                        }
+                                    >
+                                        <AiOutlinePropertySafety />
+                                        Manage Property
+                                    </NavLink>
+                                </li>
                                 {/* profile */}
                                 <li>
                                     <NavLink

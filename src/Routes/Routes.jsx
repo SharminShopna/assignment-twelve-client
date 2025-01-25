@@ -52,10 +52,16 @@ import AllProperties from "../pages/Common/AllProperties";
           )
         },
         {
-          path:'all-properties',
-          element: <AllProperties></AllProperties>,
+          path:'allProperties',
+          element:(
+          <PrivateRouter> <AllProperties></AllProperties></PrivateRouter>
+          )
+        },
+        // {
+        //   path:'allProperties',
+        //   element: <AllProperties></AllProperties>,
           
-        }
+        // }
         
       ]
     },

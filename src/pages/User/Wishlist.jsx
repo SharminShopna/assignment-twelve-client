@@ -100,6 +100,9 @@ const Wishlist = () => {
   };
 
 
+
+
+
   const handleMakeOffer = (property) => {
     navigate('/dashboard/makeOffer', { state: { property } });
   };
@@ -126,8 +129,8 @@ const Wishlist = () => {
                   <img src={property?.agent?.image} alt={property?.agent?.name} className="w-8 h-8 rounded-full mr-2" />
                   <p className="text-sm font-medium">{property?.agent?.name}</p>
                 </div>
-                <p className={`mt-2 text-sm font-medium ${property.verificationStatus ? 'text-green-600' : 'text-red-600'}`}>
-                  {property.verificationStatus ? 'Verified' : 'Not Verified'}
+                <p className={`mt-2 text-sm font-medium ${property.status ? 'text-green-600' : 'text-red-600'}`}>
+                  {property.status ? 'Verified' : 'Not Verified'}
                 </p>
                 <div className="flex justify-between gap-1 mt-4">
                   <button

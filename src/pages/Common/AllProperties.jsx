@@ -1,46 +1,51 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import SectionTitle from '../../components/SectionTitle';
+import Loading from '../../components/Loading';
+import PropertyCard from '../../components/CardSection/PropertyCard';
+import { Helmet } from 'react-helmet';
 
-// Function to fetch properties
-
-
-// All Properties Page Component
 const AllProperties = () => {
-    const fetchProperties = async () => {
-        const response = await axios.get('http://localhost:5000/properties'); 
-        return response.data;
-      };
-  const { data, error, isLoading } = useQuery('properties', fetchProperties);
-  
+  // Fetch properties with react-query
+  const { data: properties, isLoading, error } = useQuery({
+    queryKey: ['allProperties'],
+    queryFn: async () => {
+      try {
+        const { data } = await axios('http://localhost:5000/properties');
+        return data.filter(property => property.status === 'verified');
+      } catch (err) {
+        console.error('Error fetching properties:', err);
+        throw err;
+      }
+    },
+  });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred: {error.message}</div>;
+  if (isLoading) return <Loading />;
+  if (error) return <p className="text-red-500">Failed to load properties. Please try again later.</p>;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-      {data.map((property) => (
-        <div key={property._id} className="border rounded-lg shadow-lg overflow-hidden">
-          <img src={property.image} alt={property.title} className="w-full h-48 object-cover" />
-          <div className="p-4">
-            <h3 className="text-xl font-semibold">{property.title}</h3>
-            <p className="text-gray-600">{property.location}</p>
-            <p className="font-bold text-lg">{`${property.minPrice} - ${property.maxPrice}`}</p>
-            <p className="text-sm text-gray-500">Agent: {property.agent.name}</p>
-            <p className="text-sm text-gray-500">Status: {property.status}</p>
-            <div className="mt-4">
-              <Link
-                to={`/propDetails/${_id}`}
-                className="btn text-white bg-lime-700 hover:bg-lime-900"
-              >
-                View Details
-              </Link>
-            </div>
+    <>
+      <Helmet>
+        <title>House Box | All Properties</title>
+      </Helmet>
+      <SectionTitle
+        heading="All Properties"
+        subHeading="Find your dream property from our exclusive listings."
+      />
+      <div className="container mx-auto px-4 py-8">
+        {properties && properties.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-8">
+            {properties.map(property => (
+              <PropertyCard key={property._id} property={property}></PropertyCard>
+
+            ))}
           </div>
-        </div>
-      ))}
-    </div>
+        ) : (
+          <p className="text-center text-gray-500">No verified properties available at the moment.</p>
+        )}
+      </div>
+    </>
   );
 };
 

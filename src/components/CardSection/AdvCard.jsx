@@ -4,7 +4,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 const AdvCard = ({ property }) => {
-    const { _id, image, location, minPrice, maxPrice, isVerified } = property || {};
+    const { _id, image, location, minPrice, maxPrice, status } = property || {};
 
     return (
         <div
@@ -38,7 +38,8 @@ const AdvCard = ({ property }) => {
                             absolute 
                             top-3 
                             right-3 
-                            bg-white 
+                            bg-green-600
+                            text-white 
                             text-sm 
                             font-medium 
                             px-2 
@@ -47,7 +48,7 @@ const AdvCard = ({ property }) => {
                             shadow
                         "
                     >
-                        {isVerified ? 'Verified' : 'Not Verified'}
+                        {status ? 'Verified' : 'Not Verified'}
                     </div>
                 </div>
 

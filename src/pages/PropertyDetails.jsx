@@ -44,9 +44,11 @@ const PropertyDetails = () => {
                     propertyId: property._id,
                     image: property.image,
                     title: property.title,
+                    status: property.status,
                     location: property.location,
                     userImage: user.photoURL,
-                    price: property.price,
+                    maxPrice: property.maxPrice,
+                    minPrice: property.minPrice,
                 },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

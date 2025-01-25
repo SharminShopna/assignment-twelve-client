@@ -18,6 +18,7 @@ const PropBought = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`, 
                   },
             });
+            console.log(data)
             return data;
         },
     })

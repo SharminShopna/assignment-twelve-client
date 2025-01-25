@@ -12,7 +12,7 @@ const AllProperties = () => {
     queryKey: ['allProperties'],
     queryFn: async () => {
       try {
-        const { data } = await axios('http://localhost:5000/properties');
+        const { data } = await axios('http://localhost:5000/all-properties');
         return data.filter(property => property.status === 'verified');
       } catch (err) {
         console.error('Error fetching properties:', err);

@@ -57,11 +57,7 @@ import AllProperties from "../pages/Common/AllProperties";
           <PrivateRouter> <AllProperties></AllProperties></PrivateRouter>
           )
         },
-        // {
-        //   path:'allProperties',
-        //   element: <AllProperties></AllProperties>,
-          
-        // }
+        
         
       ]
     },

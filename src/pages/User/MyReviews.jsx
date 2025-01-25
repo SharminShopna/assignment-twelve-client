@@ -21,7 +21,9 @@ const MyReviews = () => {
                 `http://localhost:5000/my-reviews/${user.email}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+            console.log(data)
             return data;
+            
         },
     });
 
@@ -78,7 +80,7 @@ const MyReviews = () => {
                         <h2 className="font-bold text-lg">{review.propertyTitle}</h2>
                         <p className='flex items-center gap-1'><MdOutlinePreview />{review.reviewText}</p>
                         <p>Agent: {review?.property?.agent?.name || 'fahim'}</p>
-                        <p>Time: {new Date(review.timestamp).toLocaleString()}</p>
+                        <p>Time: {new Date(review.time).toLocaleString()}</p>
                         
                         <button
                             className="btn bg-red-600 text-white hover:bg-red-400 mt-2"

@@ -41,12 +41,20 @@ const PropertyCard = ({ property }) => {
                     />
                     <span className="text-sm font-medium">{agent?.name}</span>
                 </div>
+                <div className='flex justify-between gap-4'>
                 <Link
                     to={`/propDetails/${_id}`}
                     className="mt-4 inline-block w-full text-center bg-lime-700 text-white py-2 rounded-md hover:bg-lime-500 transition-colors"
                 >
                     View Details
                 </Link>
+                <Link
+                    to={'/'}
+                    className="mt-4 inline-block w-full text-center bg-lime-700 text-white py-2 rounded-md hover:bg-lime-500 transition-colors"
+                >
+                    Go Home
+                </Link>
+            </div>
             </div>
         </div>
     );

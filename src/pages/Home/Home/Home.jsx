@@ -4,6 +4,7 @@ import HeroSection from "../../../components/HeroSection";
 import HouseSection from "../../../components/HouseSection";
 import RealEstateCard from "../../../components/RealEstateCard";
 import Advertisement from "../Advertisement";
+import LatestReviews from "../../../components/LatestReviews";
 
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
         <div className="">
         <Banner></Banner>
         <Advertisement></Advertisement>
+        <LatestReviews></LatestReviews>
         <HeroSection></HeroSection>
         <HouseSection></HouseSection>
         

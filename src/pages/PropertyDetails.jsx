@@ -89,14 +89,18 @@ const PropertyDetails = () => {
         mutationFn: async () => {
           const token = localStorage.getItem('token');
           if (!token) throw new Error('JWT token is missing');
-      
+          const review =  {
+            propertyId: id, // Ensure propertyId is sent
+            reviewText,
+            rating,
+            title: property,
+            userName: user.displayName || 'Anika',
+            image: user.photoURL || 'Anika',
+            email: user.email || 'Anika',
+          }
           const response = await axios.post(
-            'http://localhost:5000/reviews',
-            {
-              propertyId: id, // Ensure propertyId is sent
-              reviewText,
-              rating,
-            },
+            'http://localhost:5000/reviews',review,
+           
             { headers: { Authorization: `Bearer ${token}` } }
           );
           return response.data;
@@ -183,8 +187,8 @@ const PropertyDetails = () => {
                             >
                                 Add a Review
                             </button>
-                            <Link to="/" className="btn bg-lime-700 text-white hover:bg-lime-900">
-                                Go Home
+                            <Link to="/allProperties" className="btn bg-lime-700 text-white hover:bg-lime-900">
+                                Go All Property 
                             </Link>
                         </div>
 

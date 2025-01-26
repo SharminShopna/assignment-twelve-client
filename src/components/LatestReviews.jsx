@@ -10,7 +10,7 @@ const LatestReviews = () => {
         queryKey: ['latestReviews'],  // Unique key for the query
         queryFn: async () => {
             const { data } = await axios.get('http://localhost:5000/latest-reviews');
-            console.log(data);
+            // console.log(data);
             return data;
         },
     });

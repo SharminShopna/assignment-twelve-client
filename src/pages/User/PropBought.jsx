@@ -22,7 +22,7 @@ const PropBought = () => {
             return data;
         },
     })
-
+     
     // console.log(orders)
     if (isLoading) return <Loading></Loading>
     return (

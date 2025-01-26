@@ -4,6 +4,8 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import AgentOrderDataRow from '../../../components/Table/AgentOrderDataRow';
+import { Helmet } from 'react-helmet';
+import SectionTitle from '../../../components/SectionTitle';
 
 const AgentSoldProperties = () => {
     const { user } = useAuth()
@@ -25,6 +27,14 @@ const AgentSoldProperties = () => {
     if (isLoading) return <Loading></Loading>
     return (
         <>
+        <Helmet>
+                <title>House Box | Sold Property</title>
+                <meta name="description" content="Add a new property to the system" />
+            </Helmet>
+            <SectionTitle
+                heading="My Sold Property"
+                subHeading="Details Of All Sold Properties."
+            ></SectionTitle>
             <div className='container mx-auto px-4 sm:px-8'>
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>

@@ -28,6 +28,7 @@ import ManageProperties from "../pages/Dashboard/AdminDashbord/ManageProperties"
 import AllProperties from "../pages/Common/AllProperties";
 import ManageReviews from "../pages/Dashboard/AdminDashbord/ManageReviews";
 import Advertise from "../pages/Dashboard/AdminDashbord/Advertise";
+import OfferProperty from "../pages/User/OfferProperty";
 
   export const router = createBrowserRouter([
     {
@@ -146,6 +147,10 @@ import Advertise from "../pages/Dashboard/AdminDashbord/Advertise";
         {
           path: 'makeOffer',
           element: <MakeOffer></MakeOffer>
+        },
+        {
+          path: 'offer',
+          element: <OfferProperty></OfferProperty>
         }
        
 

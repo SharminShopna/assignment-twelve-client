@@ -207,6 +207,18 @@ const Dashboard = () => {
                                 </li>
                                 <li>
                                     <NavLink
+                                        to='/dashboard/offer'
+                                        className={({ isActive }) =>
+                                            `flex font-semibold items-center gap-2 md:px-4 px-2 md:py-2 rounded ${isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'
+                                            }`
+                                        }
+                                    >
+                                        <SiWish />
+                                        Offer Property
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
                                         to='/dashboard/becomeAgent'
                                         className={({ isActive }) =>
                                             `flex font-semibold items-center gap-2 md:px-4 px-2 md:py-2 rounded ${isActive ? 'bg-white text-lime-700' : 'hover:bg-lime-900'

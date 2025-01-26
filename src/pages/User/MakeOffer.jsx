@@ -5,11 +5,13 @@ import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import SectionTitle from '../../components/SectionTitle';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useRole from '../../hooks/useRole';
 
 const MakeOffer = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const [role] = useRole()
     const [offerAmount, setOfferAmount] = useState('');
     const [totalQuantity, setTotalQuantity] = useState(1);
     const [buyingDate, setBuyingDate] = useState('');
@@ -31,6 +33,7 @@ const MakeOffer = () => {
         date: '',
         status: 'Pending',
     });
+    console.log(user.email,property?.agent?.email, role, offerInfo.quantity)
 
     const totalOfferAmount = offerAmount * totalQuantity || 0;
 
@@ -75,7 +78,7 @@ const MakeOffer = () => {
             setOfferError(
                 `Offer amount must be an integer between ${minPrice.toLocaleString()} and ${maxPrice.toLocaleString()}.`
             );
-            setOfferAmount(''); 
+            setOfferAmount('');
         } else {
             setOfferError('');
             setOfferAmount(numericValue);
@@ -97,7 +100,7 @@ const MakeOffer = () => {
                 'Your offer is being reviewed by the agent.',
                 'success'
             );
-            navigate('/dashboard/propBought');
+            navigate('/dashboard/offer');
         } catch (error) {
             Swal.fire('Failed to submit the offer!', '', 'error');
         }
@@ -156,9 +159,9 @@ const MakeOffer = () => {
                                 type="number"
                                 value={offerAmount}
                                 onChange={handleOfferChange}
-                                step="1" 
-                                min={property?.minPrice || 1000} 
-                                max={property?.maxPrice || 500000} 
+                                step="1"
+                                min={property?.minPrice || 1000}
+                                max={property?.maxPrice || 500000}
                                 placeholder={`Enter an amount between ${property?.minPrice || 1000} and ${property?.maxPrice || 500000}`}
                                 className={`input input-bordered w-full ${offerError ? 'border-red-500' : ''}`}
                                 required
@@ -219,9 +222,9 @@ const MakeOffer = () => {
                             />
                         </div>
                     </div>
-                    <button type="submit" className="btn bg-lime-700 text-white w-full hover:bg-lime-900 transition-colors">
+                     <button  disabled={!user || user?.email === property?.agent?.email || role != 'customer' || offerInfo?.quantity === 0} type="submit" className="btn bg-lime-700 text-white w-full hover:bg-lime-900 transition-colors">
                         Make Offer
-                    </button>
+                    </button> 
                 </form>
             </div>
         </>
@@ -229,3 +232,4 @@ const MakeOffer = () => {
 };
 
 export default MakeOffer;
+

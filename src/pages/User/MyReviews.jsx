@@ -74,7 +74,7 @@ const MyReviews = () => {
           subHeading="Here’s a list of reviews you’ve shared for properties."
         />
         <div className="container mx-auto mt-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {reviews.map((review) => (
                     <div key={review._id} className="p-4 border rounded shadow">
                         <h2 className="font-bold text-lg">{review.propertyTitle}</h2>

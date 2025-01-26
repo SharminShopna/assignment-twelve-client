@@ -5,9 +5,8 @@ import SectionTitle from './SectionTitle';
 import Loading from './Loading';
 
 const LatestReviews = () => {
-    // Fetch the latest reviews with query parameters
     const { data: reviews, isLoading, error } = useQuery({
-        queryKey: ['latestReviews'],  // Unique key for the query
+        queryKey: ['latestReviews'],
         queryFn: async () => {
             const { data } = await axios.get('http://localhost:5000/latest-reviews');
             // console.log(data);
@@ -18,7 +17,6 @@ const LatestReviews = () => {
     // Loading state
     if (isLoading) return <div><Loading></Loading></div>;
 
-    // Error handling
     if (error) return <div>Error fetching reviews: {error.message}</div>;
 
     return (

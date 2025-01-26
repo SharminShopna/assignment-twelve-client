@@ -6,7 +6,6 @@ import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import SectionTitle from '../../../components/SectionTitle';
 
-// ManageReviews component
 const ManageReviews = () => {
     const queryClient = useQueryClient();
 
@@ -19,13 +18,9 @@ const ManageReviews = () => {
             return response.data;
         }
     });
-
-    // Handle delete review mutation
     const { mutate: handleDeleteReview } = useMutation({
         mutationFn: async (id) => {
           const token = localStorage.getItem('token');
-      
-          // Confirm before deleting
           const result = await Swal.fire({
             title: 'Are you sure?',
             text: "Once deleted, you will not be able to recover this review!",
@@ -38,13 +33,12 @@ const ManageReviews = () => {
       
           if (result.isConfirmed) {
             try {
-              const response = await axios.delete(`http://localhost:5000/reviews/${id}`, {
+              const response = await axios.delete(`http://localhost:5000/admin-reviews/${id}`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }
               });
-              
-              // Handle success
+              console.log(response.data);
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -53,7 +47,6 @@ const ManageReviews = () => {
                 timer: 1500,
               });
             } catch (error) {
-              // Handle error
               if (error.response && error.response.data.message === 'You can only delete your own reviews or be an admin to delete any review') {
                 Swal.fire({
                   icon: 'error',

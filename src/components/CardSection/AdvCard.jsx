@@ -48,7 +48,7 @@ const AdvCard = ({ property }) => {
                             shadow
                         "
                     >
-                        {status ? 'Verified' : 'Not Verified'}
+                        {status ? 'verified' : 'Not verified'}
                     </div>
                 </div>
 

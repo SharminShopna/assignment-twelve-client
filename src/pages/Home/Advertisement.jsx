@@ -10,7 +10,7 @@ const Advertisement = () => {
         queryKey: ['property'],
         queryFn: async () => {
           try {
-            const { data } = await axios('http://localhost:5000/properties');
+            const { data } = await axios('http://localhost:5000/adv-properties');
             return data;
           } catch (err) {
             console.error('Error fetching properties:', err);

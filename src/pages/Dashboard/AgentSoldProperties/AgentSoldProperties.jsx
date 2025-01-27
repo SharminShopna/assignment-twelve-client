@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import AgentOrderDataRow from '../../../components/Table/AgentOrderDataRow';
 import { Helmet } from 'react-helmet';
 import SectionTitle from '../../../components/SectionTitle';
+import SoldPrice from './SoldPrice';
 
 const AgentSoldProperties = () => {
   const { user } = useAuth()
@@ -18,11 +19,11 @@ const AgentSoldProperties = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      console.log(data)
+      // console.log(data)
       return data;
     },
   })
-  console.log('Fetched Orders:', orders);
+  // console.log('Fetched Orders:', orders);
 
   // console.log(orders)
   if (isLoading) return <Loading></Loading>
@@ -32,10 +33,16 @@ const AgentSoldProperties = () => {
         <title>House Box | Sold Property</title>
         <meta name="description" content="Add a new property to the system" />
       </Helmet>
+      {/* Title */}
       <SectionTitle
         heading="My Sold Property"
         subHeading="Details Of All Sold Properties."
       ></SectionTitle>
+      {/* sold card length */}
+      <div className='mt-12'>
+      <SoldPrice></SoldPrice>
+      </div>
+      {/* sold property details */}
       <div className='container mx-auto px-4 sm:px-8'>
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>

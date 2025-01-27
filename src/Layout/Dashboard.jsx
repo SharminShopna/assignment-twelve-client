@@ -13,7 +13,7 @@ import Footer from "../pages/Shared/Footer/Footer";
 
 import { MdOutlineReviews } from "react-icons/md";
 import { FaUserCog } from "react-icons/fa";
-import { BiUser } from "react-icons/bi";
+import { BiSolidOffer, BiUser } from "react-icons/bi";
 import useRole from "../hooks/useRole";
 import { IoStarHalfOutline } from "react-icons/io5";
 import { RiAdvertisementLine } from "react-icons/ri";
@@ -213,7 +213,7 @@ const Dashboard = () => {
                                             }`
                                         }
                                     >
-                                        <SiWish />
+                                        <BiSolidOffer />
                                         Offer Property
                                     </NavLink>
                                 </li>

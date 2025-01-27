@@ -9,11 +9,13 @@ import {loadStripe} from '@stripe/stripe-js';
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
 
 
-const OrderCard = ({ orderData, refetch, offerInfo }) => {
+const OrderCard = ({ orderData, refetch }) => {
     let [isOpen, setIsOpen] = useState(false)
     let [isPaymentOpen, setIsPaymentOpen] = useState(false);
+    let [isPaymentCompleted, setIsPaymentCompleted] = useState(false);
     const closeModal = () => setIsOpen(false)
     const closePaymentModal = () => setIsPaymentOpen(false);
+
     const axiosSecure = useAxiosSecure()
     const { image, title, location, agentName, price, quantity, _id, status, propertyId } = orderData
 
@@ -70,9 +72,6 @@ const OrderCard = ({ orderData, refetch, offerInfo }) => {
                     <p className="text-gray-800">
                         <strong>Offered Amount:</strong> ${price}
                     </p>
-                    <p className="text-gray-800">
-                        <strong>Quantity:</strong> {quantity}
-                    </p>
                     <div
                         className={`mt-2 text-center font-semibold py-1 rounded ${status === 'pending'
                             ? 'bg-yellow-500 text-white'
@@ -88,10 +87,15 @@ const OrderCard = ({ orderData, refetch, offerInfo }) => {
                         {status === "accepted" && (
                             <button
                             onClick={() => setIsPaymentOpen(true)}
-                                className="mt-4 w-full bg-lime-700 text-white py-2 px-4 rounded hover:bg-lime-900 transition duration-200"
-                            >
-                                Pay
-                            </button>
+                            disabled={isPaymentCompleted}
+                            className={`mt-4 w-full py-2 px-4 rounded transition duration-200 ${
+                                isPaymentCompleted
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-lime-700 text-white hover:bg-lime-900"
+                            }`}
+                        >
+                            {isPaymentCompleted ? "Paid" : "Pay"}
+                        </button>
                         )}
                         <button
                             onClick={() => setIsOpen(true)}
@@ -108,7 +112,7 @@ const OrderCard = ({ orderData, refetch, offerInfo }) => {
             </div>
             {isPaymentOpen && (
                 <Elements stripe={stripePromise}>
-                    <PaymentModal isOpen={isPaymentOpen} closeModal={closePaymentModal} orderId={_id} amount={price} offerInfo={offerInfo} orderData={orderData} />
+                    <PaymentModal isOpen={isPaymentOpen} refetch={refetch} closeModal={closePaymentModal} orderId={_id} onPaymentSuccess={() => setIsPaymentCompleted(true)} amount={price} orderData={orderData} />
                 </Elements>
             )}
         </div>

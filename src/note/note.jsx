@@ -454,5 +454,40 @@ const AgentRequestedProp = () => {
 export default AgentRequestedProp;
 
 
+// MakeOffer.jsx
 
+// try {
+        //     await axiosSecure.post('/offer', offerInfo);
+        //     await axiosSecure.patch(`/property/quantity/${property?._id}`, {
+        //         quantityToUpdate: totalQuantity,
+        //         status: 'decrease',
+        //     });
+
+        //     Swal.fire(
+        //         'Offer Submitted Successfully!',
+        //         'Your offer is being reviewed by the agent.',
+        //         'success'
+        //     );
+        //     navigate('/dashboard/offer');
+        // } catch (error) {
+        //     Swal.fire('Failed to submit the offer!', '', 'error');
+        // }
+
+
+        const [offerInfo, setOfferInfo] = useState({
+          //     buyer: {
+          //         name: user?.displayName,
+          //         email: user?.email,
+          //         image: user?.photoURL,
+          //     },
+          //     propertyId: property?._id,
+          //     price: 0,
+          //     quantity: 1,
+          //     agent: property?.agent?.email,
+          //     location: property?.location,
+          //     image: property?.image,
+          //     title: property?.title,
+          //     date: '',
+          //     status: 'Pending',
+          // });
 

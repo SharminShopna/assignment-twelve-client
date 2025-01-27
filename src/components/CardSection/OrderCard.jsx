@@ -3,43 +3,49 @@ import { CiLocationOn } from "react-icons/ci";
 import DeleteModal from "../Modal/DeleteModal";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import PaymentModal from "../Modal/PaymentModal";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
 
 
-const OrderCard = ({ orderData, refetch }) => {
+const OrderCard = ({ orderData, refetch, offerInfo }) => {
     let [isOpen, setIsOpen] = useState(false)
-  const closeModal = () => setIsOpen(false)
-  const axiosSecure = useAxiosSecure()
+    let [isPaymentOpen, setIsPaymentOpen] = useState(false);
+    const closeModal = () => setIsOpen(false)
+    const closePaymentModal = () => setIsPaymentOpen(false);
+    const axiosSecure = useAxiosSecure()
     const { image, title, location, agentName, price, quantity, _id, status, propertyId } = orderData
 
     // handle order delete and cancel
-    const handleDelete = async()=>{
-        try{
-        //  fetch delete request
-          await axiosSecure.delete(`/orders/${_id}`) 
+    const handleDelete = async () => {
+        try {
+            //  fetch delete request
+            await axiosSecure.delete(`/orders/${_id}`)
 
-          // increase quantity from property collection
-          await axiosSecure.patch(`/property/quantity/${propertyId}`, {
-            quantityToUpdate: quantity,
-            status: 'increase',
-        })
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Offer Order Cancelled",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          refetch()
+            // increase quantity from property collection
+            await axiosSecure.patch(`/property/quantity/${propertyId}`, {
+                quantityToUpdate: quantity,
+                status: 'increase',
+            })
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Offer Order Cancelled",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            refetch()
         }
-        catch(err){
+        catch (err) {
             console.log(err);
             Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: err.res.data || "An unexpected error occurred",
+                icon: "error",
+                title: "Oops...",
+                text: err.res.data || "An unexpected error occurred",
             });
         }
-        finally{
+        finally {
             closeModal()
         }
     }
@@ -70,7 +76,7 @@ const OrderCard = ({ orderData, refetch }) => {
                     <div
                         className={`mt-2 text-center font-semibold py-1 rounded ${status === 'pending'
                             ? 'bg-yellow-500 text-white'
-                            : status === 'approved'
+                            : status === 'accepted'
                                 ? 'text-white bg-green-800'
                                 : 'bg-lime-700 text-white'
                             }`}
@@ -79,26 +85,32 @@ const OrderCard = ({ orderData, refetch }) => {
                     </div>
 
                     <div className="flex gap-4 mt-1">
-                        {status === "approved" && (
+                        {status === "accepted" && (
                             <button
-                                onClick={() => handlePayment(_id)}
+                            onClick={() => setIsPaymentOpen(true)}
                                 className="mt-4 w-full bg-lime-700 text-white py-2 px-4 rounded hover:bg-lime-900 transition duration-200"
                             >
                                 Pay
                             </button>
                         )}
-                           <button onClick={() => setIsOpen(true)}
-                        className='relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-white leading-tight'
-                    >
-                        <span className='absolute cursor-pointer inset-0 bg-red-700 opacity-50 rounded-full'></span>
-                        <span className='relative cursor-pointer'>Cancel</span>
-                    </button>
-                    <DeleteModal handleDelete={handleDelete} isOpen={isOpen} closeModal={closeModal}></DeleteModal> 
+                        <button
+                            onClick={() => setIsOpen(true)}
+                            className="mt-4 w-full text-white bg-red-700 hover:bg-red-800 py-2 px-4 rounded transition duration-200 bg-opacity-75 "
+                        >
+                            Cancel
+                        </button>
+
+                        <DeleteModal handleDelete={handleDelete} isOpen={isOpen} closeModal={closeModal}></DeleteModal>
 
                     </div>
-                   
+
                 </div>
             </div>
+            {isPaymentOpen && (
+                <Elements stripe={stripePromise}>
+                    <PaymentModal isOpen={isPaymentOpen} closeModal={closePaymentModal} orderId={_id} amount={price} offerInfo={offerInfo} orderData={orderData} />
+                </Elements>
+            )}
         </div>
     );
 };

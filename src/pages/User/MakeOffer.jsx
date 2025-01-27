@@ -33,7 +33,7 @@ const MakeOffer = () => {
         date: '',
         status: 'Pending',
     });
-    console.log(user.email,property?.agent?.email, role, offerInfo.quantity)
+    // console.log(user.email,property?.agent?.email, role, offerInfo.quantity)
 
     const totalOfferAmount = offerAmount * totalQuantity || 0;
 
@@ -222,7 +222,7 @@ const MakeOffer = () => {
                             />
                         </div>
                     </div>
-                     <button  disabled={!user || user?.email === property?.agent?.email || role != 'customer' || offerInfo?.quantity === 0} type="submit" className="btn bg-lime-700 text-white w-full hover:bg-lime-900 transition-colors">
+                     <button offerInfo={offerInfo}  disabled={!user || user?.email === property?.agent?.email || role != 'customer' || offerInfo?.quantity === 0} type="submit" className="btn bg-lime-700 text-white w-full hover:bg-lime-900 transition-colors">
                         Make Offer
                     </button> 
                 </form>
@@ -232,4 +232,3 @@ const MakeOffer = () => {
 };
 
 export default MakeOffer;
-

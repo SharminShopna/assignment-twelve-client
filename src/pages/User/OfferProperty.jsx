@@ -60,9 +60,10 @@ const OfferProperty = () => {
                                 >
                                     Status: {offer.status}
                                 </p>
-                                {offer.status === 'bought' && (
+                                {/* {offer.status === 'bought' && (
                                     <p className="text-sm text-green-600 dark:text-green-400">Transaction ID: {offer.transactionId}</p>
-                                )}
+                                )} */}
+                               
                             </div>
                         </div>
                     ))}

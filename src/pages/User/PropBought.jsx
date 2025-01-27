@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import SectionTitle from '../../components/SectionTitle';
 import OrderCard from '../../components/CardSection/OrderCard';
 
-const PropBought = () => {
+const PropBought = ({offerInfo}) => {
     const { user } = useAuth()
     const axiosSecure = useAxiosSecure()
     const { data: orders = [], isLoading, refetch } = useQuery({
@@ -18,11 +18,12 @@ const PropBought = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`, 
                   },
             });
-            console.log(data)
+            // console.log(data)
             return data;
         },
     })
-     
+     // Filter orders to only include those with status "accepted"
+    const filteredOrders = orders.filter(order => order.status === 'accepted');
     // console.log(orders)
     if (isLoading) return <Loading></Loading>
     return (
@@ -33,8 +34,8 @@ const PropBought = () => {
             <div className="container mx-auto px-4 py-8">
                 <SectionTitle heading="Properties Purchased" subHeading="My successful purchases list" />
                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {orders.length > 0 ? (
-                        orders.map((orderData) => (<OrderCard key={orderData._id} orderData={orderData} refetch={refetch}></OrderCard>   
+                    {filteredOrders.length > 0 ? (
+                        filteredOrders.map((orderData) => (<OrderCard key={orderData._id} orderData={orderData} offerInfo={offerInfo} refetch={refetch}></OrderCard>   
                         ))
                     ) : (
                         <p className="text-center text-gray-600 col-span-full">

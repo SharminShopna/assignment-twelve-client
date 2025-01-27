@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoMdPricetags } from "react-icons/io";
 import { TbFileDescription } from "react-icons/tb";
+import SectionTitle from "./SectionTitle";
 
 
 const HouseSection = () => {
@@ -16,7 +17,10 @@ const HouseSection = () => {
 
   return (
     <section className="p-6 bg-lime-50 my-12">
-      <h2 className="text-3xl font-bold text-lime-700 text-center mb-8">Available Properties</h2>
+      <SectionTitle
+                heading="Available Properties"
+                subHeading="Explore Our Featured Properties for Rent and Sale"
+            ></SectionTitle>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {houses.map((house) => (
           <div

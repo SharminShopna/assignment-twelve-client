@@ -10,19 +10,23 @@ import { MdOutlineDescription } from 'react-icons/md';
 import { FaDollarSign } from 'react-icons/fa';
 import { IoLocationOutline } from 'react-icons/io5';
 import Swal from 'sweetalert2';
+import useRole from '../hooks/useRole';
 
 const PropertyDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
+    const [role, isLoading] = useRole()
     // console.log(user?.displayName); 
     const queryClient = useQueryClient();
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(5);
+    const isAdminOrAgent = role === 'admin' || role === 'agent';
+    // console.log(isAdminOrAgent)
 
     // Fetch property details
-    const { data: property, isLoading, refetch } = useQuery({
+    const { data: property,isLoading: isPropertyLoading,isError, refetch } = useQuery({
         queryKey: ['property', id],
         queryFn: async () => {
             const { data } = await axios.get(`http://localhost:5000/properties/${id}`);
@@ -139,7 +143,16 @@ const PropertyDetails = () => {
         }
     };
 
-    if (isLoading) return <Loading />;
+    if (isLoading || isPropertyLoading) return <Loading />;
+
+    if (isError || !property) {
+        return (
+            <div className="mt-32 text-center text-red-500">
+                <h1>Error!</h1>
+                <p>Failed to load property details. Please try again later.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="mt-32 my-4">
@@ -177,12 +190,14 @@ const PropertyDetails = () => {
                         <div className="flex gap-4">
                             <button
                                 onClick={handleAddToWishlist}
+                                disabled={isAdminOrAgent}
                                 className="btn bg-lime-700 text-white hover:bg-lime-900"
                             >
                                 Add To Wishlist
                             </button>
                             <button
                                 onClick={() => setIsReviewModalOpen(true)}
+                                disabled={isAdminOrAgent}
                                 className="btn bg-lime-700 text-white hover:bg-lime-900"
                             >
                                 Add a Review

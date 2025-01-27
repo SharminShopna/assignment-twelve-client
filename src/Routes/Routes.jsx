@@ -29,6 +29,7 @@ import AllProperties from "../pages/Common/AllProperties";
 import ManageReviews from "../pages/Dashboard/AdminDashbord/ManageReviews";
 import Advertise from "../pages/Dashboard/AdminDashbord/Advertise";
 import OfferProperty from "../pages/User/OfferProperty";
+import Contact from "../components/Contact";
 
   export const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ import OfferProperty from "../pages/User/OfferProperty";
         {
           path:'register',
           element:<Register></Register>
+        },
+        {
+          path:'contactUs',
+          element:<Contact></Contact>
         },
         {
           path:'propDetails/:id',

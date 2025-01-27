@@ -5,6 +5,7 @@ import HouseSection from "../../../components/HouseSection";
 import RealEstateCard from "../../../components/RealEstateCard";
 import Advertisement from "../Advertisement";
 import LatestReviews from "../../../components/LatestReviews";
+import Contact from "../../../components/Contact";
 
 
 const Home = () => {
@@ -22,6 +23,7 @@ const Home = () => {
         <HouseSection></HouseSection>
         
         <RealEstateCard></RealEstateCard>
+        <Contact></Contact>
             
         </div>
         </>

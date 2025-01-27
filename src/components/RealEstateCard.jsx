@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './card';
+import SectionTitle from './SectionTitle';
 
 const RealEstateCard = () => {
     const properties = [
@@ -16,9 +17,10 @@ const RealEstateCard = () => {
       return (
         <div className="bg-gradient-to-r from-lime-100 to-lime-50 py-12 mb-12">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-extrabold text-lime-700 text-center mb-10 underline decoration-gray-700 decoration-4">
-              Featured Properties
-            </h2>
+          <SectionTitle
+                heading="Featured Properties"
+                subHeading="Handpicked Properties for the Best Living Experience"
+            ></SectionTitle>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {properties.map((property, index) => (
                 <Card key={index} title={property.title} description={property.description} />

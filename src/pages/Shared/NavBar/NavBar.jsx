@@ -1,5 +1,5 @@
 import {  Link, NavLink, useLocation} from "react-router-dom";
-import logo from "../../../assets/house.png";
+import logo from "../../../assets/logo1.jpg";
  import "../../../../src/App.css";
  
  import { FaRegCircleUser } from "react-icons/fa6";
@@ -18,29 +18,17 @@ const NavBar = () => {
            <li>
             <NavLink to='/allProperties'>All Properties</NavLink>
           </li>
-          <li>
-            <NavLink to='/dashboard'>Dashboard</NavLink>
-          </li>
-          {/* <li>
-            <NavLink to="/contact">Contact</NavLink>
-          </li>
-          <li>
-            <NavLink to="/about">About Us</NavLink>
+          
+           <li>
+            <NavLink to="/contactUs">Contact</NavLink>
           </li>
           {user ? (
             <li>
-              <NavLink to="/addEquipment">Add Equipment</NavLink>
-            </li>
+            <NavLink to='/dashboard'>Dashboard</NavLink>
+          </li>
           ) : (
             ""
-          )}  */}
-          {/* {user ? (
-            <li>
-              <NavLink to="/emailMass">My Equipment List</NavLink>
-            </li>
-          ) : (
-            ""
-          )} */}
+          )}  
         </>
       );
     return (
@@ -73,8 +61,8 @@ const NavBar = () => {
             </ul>
           </div>
           <div className="flex gap-1 text-center items-center justify-center">
-            <img className="w-14 h-14 rounded-full bg-lime-700 p-3 border" src={logo} alt="" />
-            <h2 className="text-2xl font-semibold hidden md:block">
+            <img className="w-14 h-14 rounded-full bg-lime-700 p-2 border" src={logo} alt="" />
+            <h2 className="text-3xl italic text-lime-700 font-bold hidden md:block">
               HOUSEBOX
             </h2>
            

@@ -21,6 +21,7 @@ const Advertisement = () => {
     if(isLoading) return <Loading></Loading>
     return (
         <>
+        <div className='mt-16'>
          <SectionTitle
                 heading="Exclusive Property Deals Just for You"
                 subHeading="Discover Hot Listings, Limited-Time Offers, and Unmissable Opportunities!"
@@ -35,7 +36,7 @@ const Advertisement = () => {
                 <p>No Data Available</p>
             )}
         
-            
+        </div> 
         </>
     );
 };

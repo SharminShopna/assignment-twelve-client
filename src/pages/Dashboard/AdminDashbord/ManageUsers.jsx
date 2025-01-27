@@ -112,6 +112,7 @@ const ManageUsers = () => {
                                         ></span>
                                         <span className='relative'>Update Role</span>
                                     </span>
+                                    <button className='px-4 py-1 font-bold bg-red-300 text-gray-700 rounded-full ml-4'>Delete</button>
                                     {/* Modal */}
                                     <UpdateUserModal
                                          updateRole={updateRole}

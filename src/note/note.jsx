@@ -1,162 +1,196 @@
-import React, { useEffect, useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import Swal from "sweetalert2";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useAuth from "../../hooks/useAuth";
+const admin = require('firebase-admin');
+admin.initializeApp({
+    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_ADMIN_CREDENTIALS)),
+});
 
-const PaymentModal = ({ isOpen, closeModal, orderId, amount, orderData }) => {
-  const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
-  const [clientSecret, setClientSecret] = useState("");
-  const [error, setError] = useState("");
-
-  const { price } = orderData;
-
-  useEffect(() => {
-    getPaymentIntent()
-
-  }, [ price]);
-  console.log(clientSecret,'get payment intent')
-
-  const getPaymentIntent = async()=>{
-    try{
-        const {data} = await axiosSecure.post("/create-payment-intent", {
-             price ,
-            })
-            setClientSecret(data.clientSecret)
-    } catch (err){
-        console.log(err)
-    }
-  }
-
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const handlePayment = async (e) => {
-    e.preventDefault();
-
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const cardElement = elements.getElement(CardElement);
-
-    const { error: paymentError, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-    });
-
-    if (paymentError) {
-      console.error(paymentError);
-      Swal.fire({
-        icon: "error",
-        title: "Payment Error",
-        text: paymentError.message,
-      });
-    } else{
-        console.log('[paymentMethod]',paymentMethod)
-    }
+// Delete user from Firebase Auth
+app.delete('/user/:email', verifyToken, async (req, res) => {
+    const email = req.params.email;
 
     try {
-    //   const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-    //     payment_method: paymentMethod.id,
-        
+        // Fetch the Firebase user by email
+        const userRecord = await admin.auth().getUserByEmail(email);
 
-    //   });
+        // Delete the Firebase user
+        await admin.auth().deleteUser(userRecord.uid);
 
-    //   if (confirmError) {
-    //     console.error("Payment confirmation error:", confirmError);
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Payment Error",
-    //       text: confirmError.message,
-    //     });
-    //     return;
-    //   }
+        // Delete the user from the database
+        const query = { email };
+        const result = await usersCollection.deleteOne(query);
 
-      Swal.fire({
-        icon: "success",
-        title: "Payment Successful",
-        text: `Payment for Order ID: ${orderId} of $${amount} was successful!`,
-      });
-
-      // TODO: Send payment details to your server
-      const data = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-            card: cardElement,
-            billing_details: {
-               name: user?.displayName,
-               email:user?.email,
-            },
-        },
-      })
-      console.log(data);
-
-
-
-
-      closeModal();
-    } catch (error) {
-      console.error("Payment processing error:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Payment Error",
-        text: error.message,
-      });
+        res.send({ message: 'User deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ message: 'Failed to delete user' });
     }
-     
-  };
+});
 
-  return isOpen ? (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-        <h2 className="text-xl font-semibold mb-4">Complete Your Payment</h2>
 
-        <form onSubmit={handlePayment}>
-          <CardElement className="border p-2 rounded mb-4" />
-          <button
-            type="submit"
-            className="w-full bg-lime-700 text-white py-2 px-4 rounded hover:bg-lime-900 transition duration-200"
-            disabled={!stripe || !clientSecret}
-          >
-            Pay ${price}
-          </button>
-        </form>
-        <button
-          onClick={closeModal}
-          className="mt-4 w-full bg-red-600 opacity-75 text-white py-2 px-4 rounded hover:bg-red-800 transition duration-200"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  ) : null;
+// Delete a user from the database and Firebase
+app.delete('/user/:email', verifyToken, async (req, res) => {
+  const email = req.params.email;
+
+  try {
+      // Delete user from database
+      const query = { email };
+      const result = await usersCollection.deleteOne(query);
+
+      if (result.deletedCount === 0) {
+          return res.status(404).send({ message: 'User not found' });
+      }
+
+      // Delete user from Firebase (if applicable)
+      // Call Firebase Admin SDK here (optional if Firebase integration is used)
+
+      res.send({ message: 'User deleted successfully' });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send({ message: 'Failed to delete user' });
+  }
+});
+
+import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
+import SectionTitle from '../../../components/SectionTitle';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import useAuth from '../../../hooks/useAuth';
+import UpdateUserModal from '../../../components/Modal/UpdateUserModal';
+import Loading from '../../../components/Loading';
+import Swal from 'sweetalert2';
+
+const ManageUsers = () => {
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const [isOpen, setIsOpen] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
+
+    const { data: users = [], isLoading, refetch } = useQuery({
+        queryKey: ['users', user?.email],
+        queryFn: async () => {
+            const { data } = await axiosSecure.get(`/all-users/${user?.email}`);
+            return data;
+        },
+    });
+
+    // Handle user role update
+    const updateRole = async (selectedRole, userEmail) => {
+        if (users.role === selectedRole) return;
+
+        try {
+            await axiosSecure.patch(`/user/role/${userEmail}`, {
+                role: selectedRole,
+            });
+            Swal.fire({
+                title: 'Good job!',
+                text: 'Role updated successfully!',
+                icon: 'success',
+            });
+            refetch();
+        } catch (err) {
+            Swal.fire({
+                title: 'Oops!',
+                text: err.response?.data?.message || 'Something went wrong!',
+                icon: 'error',
+            });
+        } finally {
+            setIsOpen(false);
+        }
+    };
+
+    // Handle user deletion
+    const deleteUser = async (email) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axiosSecure.delete(`/user/${email}`);
+                    Swal.fire('Deleted!', 'User has been deleted.', 'success');
+                    refetch();
+                } catch (err) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: err.response?.data?.message || 'Something went wrong!',
+                        icon: 'error',
+                    });
+                }
+            }
+        });
+    };
+
+    if (isLoading) return <Loading></Loading>;
+
+    return (
+        <>
+            <Helmet>
+                <title>House Box | Manage User</title>
+                <meta name="description" content="Add a new property to the system" />
+            </Helmet>
+            <SectionTitle heading="Manage Users" subHeading="Control user accounts, roles, and activities"></SectionTitle>
+
+            <div className="overflow-x-auto mt-6">
+                <table className="table-auto w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr className="bg-lime-700 text-white">
+                            <th className="border border-gray-300 px-4 py-2">USER NAME</th>
+                            <th className="border border-gray-300 px-4 py-2">EMAIL</th>
+                            <th className="border border-gray-300 px-4 py-2">ROLE</th>
+                            <th className="border border-gray-300 px-4 py-2">STATUS</th>
+                            <th className="border border-gray-300 px-4 py-2">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map((userData) => (
+                            <tr key={userData.id} className="text-center">
+                                <td className="border border-gray-300 px-4 py-2">{userData.name}</td>
+                                <td className="border border-gray-300 px-4 py-2">{userData.email}</td>
+                                <td className="border border-gray-300 px-4 py-2">
+                                    {userData.role}
+                                </td>
+                                <td className="border border-gray-300 px-4 py-2">
+                                    {userData?.status || 'Unavailable'}
+                                </td>
+                                <td className="border border-gray-300 px-4 py-2">
+                                    <button
+                                        onClick={() => {
+                                            setUserEmail(userData.email);
+                                            setIsOpen(true);
+                                        }}
+                                        className="mr-2 px-3 py-1 bg-green-500 text-white rounded"
+                                    >
+                                        Update Role
+                                    </button>
+                                    <button
+                                        onClick={() => deleteUser(userData.email)}
+                                        className="px-3 py-1 bg-red-500 text-white rounded"
+                                    >
+                                        Delete
+                                    </button>
+                                    <UpdateUserModal
+                                        updateRole={updateRole}
+                                        role={userData.role}
+                                        isOpen={isOpen}
+                                        setIsOpen={setIsOpen}
+                                        userEmail={userEmail}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {users.length === 0 && (
+                    <p className="text-center text-gray-500 mt-4">No users found.</p>
+                )}
+            </div>
+        </>
+    );
 };
 
-export default PaymentModal;
-
-
-
-
-// const {paymentIntent, error: confirmError} = await stripe.createPaymentMethod(clientSecret, {
-//     payment_method: {
-//         card:cardElement,
-//         billing_details: {
-//             email: user?.email || 'anonymous',
-//             name: user?.displayName || 'anonymous',
-//         }
-//     }
-// })
-
-
-// const {paymentIntent, error: confirmError} = await stripe.createPaymentMethod(clientSecret, {
-//     payment_method: {
-//         card:cardElement,
-//         billing_details: {
-//             email: user?.email || 'anonymous',
-//             name: user?.displayName || 'anonymous',
-//         }
-//     }
-// })
-
-  //   closeModal()
+export default ManageUsers;

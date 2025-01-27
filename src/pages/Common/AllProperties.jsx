@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {  useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import SectionTitle from '../../components/SectionTitle';
@@ -7,13 +7,17 @@ import PropertyCard from '../../components/CardSection/PropertyCard';
 import { Helmet } from 'react-helmet';
 
 const AllProperties = () => {
+  const [searchLocation, setSearchLocation] = useState('');
+  const [sort, setSort] = useState(false);
+
   // Fetch properties with react-query
   const { data: properties, isLoading, error } = useQuery({
-    queryKey: ['allProperties'],
+    queryKey: ['allProperties', searchLocation, sort],
     queryFn: async () => {
       try {
-        const { data } = await axios('http://localhost:5000/all-properties');
-        console.log('all property', data)
+        const { data } = await axios(
+          `http://localhost:5000/all-properties?location=${searchLocation}&sort=${sort}`
+        );
         return data.filter(property => property.status === 'verified');
       } catch (err) {
         console.error('Error fetching properties:', err);
@@ -31,22 +35,38 @@ const AllProperties = () => {
         <title>House Box | All Properties</title>
       </Helmet>
       <div className='mt-36 my-6'>
-      <SectionTitle
-        heading="All Properties"
-        subHeading="Find your dream property from our exclusive listings."
-      />
-      <div className="container mx-auto px-4 py-8">
-        {properties && properties.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-8">
-            {properties.map(property => (
-              <PropertyCard key={property._id} property={property}></PropertyCard>
-
-            ))}
+        <SectionTitle
+          heading="All Properties"
+          subHeading="Find your dream property from our exclusive listings."
+        />
+        <div className="container mx-auto px-4 py-8">
+          <div className="md:flex space-y-2 justify-between items-center mb-6">
+            <input
+              type="text"
+              placeholder="Search by location"
+              className="border border-lime-700 p-2 rounded w-full max-w-xs"
+              value={searchLocation}
+              onChange={(e) => setSearchLocation(e.target.value)}
+            />
+            <div className='flex gap-4'>
+              <button
+                onClick={() => setSort(!sort)}
+                className={`btn bg-lime-700 text-white ${sort && "bg-lime-500 text-gray-800"}`}
+              >
+                {sort ? "Sorted By Min-Max Price Range" : "Sort By Price Range"}
+              </button>
+            </div>
           </div>
-        ) : (
-          <p className="text-center text-gray-500">No verified properties available at the moment.</p>
-        )}
-      </div>
+          {properties && properties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-8">
+              {properties.map(property => (
+                <PropertyCard key={property._id} property={property}></PropertyCard>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500">No verified properties available at the moment.</p>
+          )}
+        </div>
       </div>
     </>
   );

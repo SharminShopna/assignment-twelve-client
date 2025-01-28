@@ -5,15 +5,17 @@ import SectionTitle from '../../../components/SectionTitle';
 import { Helmet } from 'react-helmet';
 import Loading from '../../../components/Loading';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AdvertiseProperty = () => {
     const queryClient = useQueryClient();
+    const axiosSecure = useAxiosSecure()
 
     // Fetch admin-verified properties
     const { data: properties, isLoading } = useQuery({
         queryKey: ['adminVerifiedProperties'],
         queryFn: async () => {
-            const { data } = await axios.get('http://localhost:5000/admin-verified-properties');
+            const { data } = await axiosSecure.get('https://assignment-twelve-server-drab.vercel.app/admin-verified-properties');
             console.log(data)
             return data;
         },
@@ -22,7 +24,7 @@ const AdvertiseProperty = () => {
     // Mutation to advertise a property
     const advertiseMutation = useMutation({
         mutationFn: async (propertyId) => {
-            const response = await axios.post('http://localhost:5000/advertise-property', { propertyId });
+            const response = await axios.post('https://assignment-twelve-server-drab.vercel.app/advertise-property', { propertyId });
             return response.data;
         },
         onSuccess: (data) => {

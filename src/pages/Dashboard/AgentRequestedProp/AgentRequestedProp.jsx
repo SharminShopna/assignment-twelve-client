@@ -11,7 +11,7 @@ const AgentRequestedProp = () => {
   const { data: offers = [], isLoading, error } = useQuery({
     queryKey: ['offers'],
     queryFn: async () => {
-      const response = await axios.get('http://localhost:5000/agent-offers', {
+      const response = await axios.get('https://assignment-twelve-server-drab.vercel.app/agent-offers', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       // console.log('agent-offer', response.data)
@@ -24,7 +24,7 @@ const AgentRequestedProp = () => {
   const updateOfferMutation = useMutation({
     mutationFn: async ({ _id: offerId, action }) => {
       const response = await axios.patch(
-        `http://localhost:5000/agent-offers/${offerId}`,
+        `https://assignment-twelve-server-drab.vercel.app/agent-offers/${offerId}`,
         { status: action },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

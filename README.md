@@ -124,7 +124,8 @@ House Box is a comprehensive real estate platform built using the MERN stack. It
 ```
 
 ## Live Site
-[House Box Live Site](#)
+https://assignment-twelve-6bd21.web.app/
+
 
 ## Admin Credentials
 - **AdminEmail**: shopnashopna@gmail.com

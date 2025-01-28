@@ -9,8 +9,8 @@ const Footer = () => {
             <footer className="footer bg-lime-50 text-base-content p-10">
                 <aside>
                     <div className='flex items-center text-center'>
-                    <img src={logo} alt="" className='h-24 w-24 rounded-full' />
-                    <h2 className='text-5xl text-lime-700 font-bold italic'>HOUSE BOX</h2>
+                        <img src={logo} alt="" className='h-24 w-24 rounded-full' />
+                        <h2 className='text-5xl text-lime-700 font-bold italic'>HOUSE BOX</h2>
                     </div>
                     <p>
                         HouseBox is a dynamic real estate platform offering users<br></br> the ability to browse, wishlist, and purchase properties,<br></br> while agents and admins manage listings and reviews<br></br> seamlessly.
@@ -83,7 +83,7 @@ const Footer = () => {
             <hr></hr>
             <footer className="footer footer-center bg-lime-50 text-base-content p-4">
                 <aside>
-                    <p>Copyright© 2024 HouseBox - All rights reserved by Real estate Platform Ltd.</p>
+                    <p>Copyright © {new Date().getFullYear()} - All right reserved by Real estate Platform Ltd</p>
                 </aside>
             </footer>
         </>

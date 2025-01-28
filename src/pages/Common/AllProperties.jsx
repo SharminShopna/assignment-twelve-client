@@ -16,7 +16,7 @@ const AllProperties = () => {
     queryFn: async () => {
       try {
         const { data } = await axios(
-          `http://localhost:5000/all-properties?location=${searchLocation}&sort=${sort}`
+          `https://assignment-twelve-server-drab.vercel.app/all-properties?location=${searchLocation}&sort=${sort}`
         );
         return data.filter(property => property.status === 'verified');
       } catch (err) {

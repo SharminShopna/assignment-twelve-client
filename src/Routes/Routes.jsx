@@ -108,7 +108,9 @@ import Contact from "../components/Contact";
         },
          {
            path:'becomeAgent',
-           element: <BecomeAgent></BecomeAgent>
+           element:(
+            <AgentRoute><BecomeAgent></BecomeAgent></AgentRoute>
+           )
          },
         {
           path:'addProperty',
@@ -130,11 +132,15 @@ import Contact from "../components/Contact";
         },
         {
           path:'agentSoldProperty',
-          element: <AgentSoldProperties></AgentSoldProperties>
+          element: (
+          <AgentRoute><AgentSoldProperties></AgentSoldProperties></AgentRoute>
+        )
         },
         {
           path: 'agentRequestProp',
-          element: <AgentRequestedProp></AgentRequestedProp>
+          element: (
+            <AgentRoute><AgentRequestedProp></AgentRequestedProp></AgentRoute>
+          )
         },
         // user related
         {

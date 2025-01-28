@@ -18,7 +18,7 @@ const MyReviews = () => {
         queryFn: async () => {
             const token = localStorage.getItem('token');
             const { data } = await axios.get(
-                `http://localhost:5000/my-reviews/${user.email}`,
+                `https://assignment-twelve-server-drab.vercel.app/my-reviews/${user.email}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             console.log(data)
@@ -31,7 +31,7 @@ const MyReviews = () => {
     const deleteReviewMutation = useMutation({
         mutationFn: async (id) => {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:5000/reviews/${id}`, {
+            const response = await axios.delete(`https://assignment-twelve-server-drab.vercel.app/reviews/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             return response.data;

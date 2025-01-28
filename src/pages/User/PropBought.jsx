@@ -13,7 +13,7 @@ const PropBought = ({offerInfo}) => {
     const { data: orders = [], isLoading, refetch } = useQuery({
         queryKey: ['orders', user?.email],
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`http://localhost:5000/buyer-orders/${user?.email}`,{
+            const { data } = await axiosSecure.get(`https://assignment-twelve-server-drab.vercel.app/buyer-orders/${user?.email}`,{
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`, 
                   },

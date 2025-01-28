@@ -8,7 +8,7 @@ const LatestReviews = () => {
     const { data: reviews, isLoading, error } = useQuery({
         queryKey: ['latestReviews'],
         queryFn: async () => {
-            const { data } = await axios.get('http://localhost:5000/latest-reviews');
+            const { data } = await axios.get('https://assignment-twelve-server-drab.vercel.app/latest-reviews');
             // console.log(data);
             return data;
         },

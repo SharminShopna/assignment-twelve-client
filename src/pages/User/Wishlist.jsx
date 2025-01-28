@@ -20,7 +20,7 @@ const Wishlist = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('JWT token is missing');
 
-      const { data } = await axios.get(`http://localhost:5000/wishlist/${user?.uid}`, {
+      const { data } = await axios.get(`https://assignment-twelve-server-drab.vercel.app/wishlist/${user?.uid}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -42,7 +42,7 @@ const Wishlist = () => {
   const removeFromWishlistMutation = useMutation({
     mutationFn: async (propertyId) => {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/wishlist/${user?.uid}/${propertyId}`, {
+      await axios.delete(`https://assignment-twelve-server-drab.vercel.app/wishlist/${user?.uid}/${propertyId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

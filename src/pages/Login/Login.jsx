@@ -31,7 +31,7 @@ const Login = () => {
             setUser(user);
     
             // Send credentials to the backend to get JWT token
-            const response = await axios.post("http://localhost:5000/jwt", { email, password });
+            const response = await axios.post("https://assignment-twelve-server-drab.vercel.app/jwt", { email, password });
             const { token } = response.data;
             localStorage.setItem("token", token);
     
@@ -60,7 +60,7 @@ const Login = () => {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
             setUser(user);
-            const response = await axios.post("http://localhost:5000/jwt", { email: user.email });
+            const response = await axios.post("https://assignment-twelve-server-drab.vercel.app/jwt", { email: user.email });
 
             // Get JWT token and store it in localStorage
             const { token } = response.data;

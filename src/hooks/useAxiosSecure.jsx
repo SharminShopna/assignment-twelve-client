@@ -5,7 +5,7 @@ import useAuth from './useAuth';
 
 // Create an axios instance with base URL and credentials
 export const axiosSecure = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://assignment-twelve-server-drab.vercel.app',
   withCredentials: true,
 });
 

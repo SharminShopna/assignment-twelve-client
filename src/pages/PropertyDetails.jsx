@@ -29,7 +29,7 @@ const PropertyDetails = () => {
     const { data: property,isLoading: isPropertyLoading,isError, refetch } = useQuery({
         queryKey: ['property', id],
         queryFn: async () => {
-            const { data } = await axios.get(`http://localhost:5000/properties/${id}`);
+            const { data } = await axios.get(`https://assignment-twelve-server-drab.vercel.app/properties/${id}`);
             return data;
         },
     });
@@ -41,7 +41,7 @@ const PropertyDetails = () => {
             if (!token) throw new Error('JWT token is missing');
 
             const response = await axios.post(
-                'http://localhost:5000/wishlist',
+                'https://assignment-twelve-server-drab.vercel.app/wishlist',
                 {
                     userId: user.uid,
                     userName: user.displayName,
@@ -103,7 +103,7 @@ const PropertyDetails = () => {
             email: user.email || 'Anika',
           }
           const response = await axios.post(
-            'http://localhost:5000/reviews',review,
+            'https://assignment-twelve-server-drab.vercel.app/reviews',review,
            
             { headers: { Authorization: `Bearer ${token}` } }
           );

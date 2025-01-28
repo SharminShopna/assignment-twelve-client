@@ -13,7 +13,7 @@ const ManageReviews = () => {
     const { data: reviews, isLoading, isError, error } = useQuery({
         queryKey: ['reviews'],
         queryFn: async () => {
-            const response = await axios.get('http://localhost:5000/reviews');
+            const response = await axios.get('https://assignment-twelve-server-drab.vercel.app/reviews');
             console.log(response.data);
             return response.data;
         }
@@ -33,7 +33,7 @@ const ManageReviews = () => {
       
           if (result.isConfirmed) {
             try {
-              const response = await axios.delete(`http://localhost:5000/admin-reviews/${id}`, {
+              const response = await axios.delete(`https://assignment-twelve-server-drab.vercel.app/admin-reviews/${id}`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }

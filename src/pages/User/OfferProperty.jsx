@@ -10,7 +10,7 @@ const OfferProperty = () => {
     const { data: offers = [], isLoading, error } = useQuery({
         queryKey: ['offers'],
         queryFn: async () => {
-            const response = await axios.get('http://localhost:5000/agent-offers', {
+            const response = await axios.get('https://assignment-twelve-server-drab.vercel.app/agent-offers', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
             return response.data;

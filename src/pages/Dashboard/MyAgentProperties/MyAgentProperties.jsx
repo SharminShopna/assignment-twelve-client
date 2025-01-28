@@ -17,7 +17,7 @@ function MyAgentProperties() {
       if (!token) throw new Error('No token found. Please log in.');
 
       const response = await axios.get(
-        `http://localhost:5000/propertySection`,
+        `https://assignment-twelve-server-drab.vercel.app/propertySection`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -35,7 +35,7 @@ function MyAgentProperties() {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token found. Please log in.");
 
-      return axios.delete(`http://localhost:5000/properties/${_id}`, {
+      return axios.delete(`https://assignment-twelve-server-drab.vercel.app/properties/${_id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
     },

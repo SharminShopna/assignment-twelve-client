@@ -21,7 +21,7 @@ function UpdatePropertyForm() {
         queryKey: ['property', id],
         queryFn: async () => {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/properties/${id}`, {
+            const response = await axios.get(`https://assignment-twelve-server-drab.vercel.app/properties/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             return response.data;
@@ -34,7 +34,7 @@ function UpdatePropertyForm() {
     const updateMutation = useMutation({
         mutationFn: async (updatedData) => {
             const token = localStorage.getItem('token');
-            return axios.patch(`http://localhost:5000/properties/${id}`, updatedData, {
+            return axios.patch(`https://assignment-twelve-server-drab.vercel.app/properties/${id}`, updatedData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },

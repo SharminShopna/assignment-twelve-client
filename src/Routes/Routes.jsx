@@ -30,6 +30,7 @@ import ManageReviews from "../pages/Dashboard/AdminDashbord/ManageReviews";
 import Advertise from "../pages/Dashboard/AdminDashbord/Advertise";
 import OfferProperty from "../pages/User/OfferProperty";
 import Contact from "../components/Contact";
+import AboutUs from "../components/AboutUs";
 
   export const router = createBrowserRouter([
     {
@@ -52,6 +53,10 @@ import Contact from "../components/Contact";
         {
           path:'contactUs',
           element:<Contact></Contact>
+        },
+        {
+          path:'aboutUs',
+          element:<AboutUs></AboutUs>
         },
         {
           path:'propDetails/:id',

@@ -25,8 +25,9 @@ const Home = () => {
         <FeatureSection></FeatureSection>
         <HouseSection></HouseSection>
         <RealEstateCard></RealEstateCard>
-        <Contact></Contact>
         <Brand></Brand>
+        <Contact></Contact>
+        
             
         </div>
         </>

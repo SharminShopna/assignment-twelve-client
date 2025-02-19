@@ -64,14 +64,14 @@ const Profile = () => {
                     <span className='font-bold text-black '>{user.email}</span>
                   </p>
 
-                  <div>
+                  {/* <div>
                     <button className='bg-lime-700 text-white px-10 py-1 rounded-lg  cursor-pointer hover:bg-lime-400 block mb-1'>
                       Update Profile
                     </button>
                     <button className='bg-lime-700 px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-lime-400'>
                       Change Password
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

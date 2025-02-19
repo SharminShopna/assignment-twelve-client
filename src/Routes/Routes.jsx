@@ -56,13 +56,13 @@ import Contact from "../components/Contact";
         {
           path:'propDetails/:id',
           element:(
-          <PrivateRouter><PropertyDetails></PropertyDetails></PrivateRouter>
+          <PropertyDetails></PropertyDetails>
           )
         },
         {
           path:'allProperties',
           element:(
-          <PrivateRouter> <AllProperties></AllProperties></PrivateRouter>
+           <AllProperties></AllProperties>
           )
         },
         

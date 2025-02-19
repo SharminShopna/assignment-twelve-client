@@ -1,0 +1,23 @@
+[
+    {
+      "sectionTitle": "Core Features",
+      "sectionDescription": "Essential tools for real estate professionals.",
+      "items": [
+        { "title": "Websites", "description": "Powerful region websites, office websites, and agent websites to generate leads and accelerate growth." },
+        { "title": "CRM", "description": "Manage all relationships and interactions with customers and prospects." },
+        { "title": "Marketing", "description": "Automated tools to attract, nurture, and manage your leads." },
+        { "title": "Team Management", "description": "Powerful tools to manage teams and collaboration." }
+      ]
+    },
+    {
+      "sectionTitle": "Property Management",
+      "sectionDescription": "Manage your property listings efficiently.",
+      "items": [
+        { "title": "Listing Management", "description": "Enter, publish, syndicate, and manage your listings." },
+        { "title": "Transaction Management", "description": "Create and track transactions, commissions, and payments." },
+        { "title": "Property Analytics", "description": "Gain insights into property performance and market trends." },
+        { "title": "Lead Tracking", "description": "Track leads and potential buyers effectively." }
+      ]
+    }
+  ]
+  

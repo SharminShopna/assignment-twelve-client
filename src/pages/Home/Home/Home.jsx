@@ -6,6 +6,7 @@ import RealEstateCard from "../../../components/RealEstateCard";
 import Advertisement from "../Advertisement";
 import LatestReviews from "../../../components/LatestReviews";
 import Contact from "../../../components/Contact";
+import FeatureSection from "../../../components/CardSection/FeatureSection";
 
 
 const Home = () => {
@@ -20,8 +21,8 @@ const Home = () => {
         <Advertisement></Advertisement>
         <LatestReviews></LatestReviews>
         <HeroSection></HeroSection>
+        <FeatureSection></FeatureSection>
         <HouseSection></HouseSection>
-        
         <RealEstateCard></RealEstateCard>
         <Contact></Contact>
             

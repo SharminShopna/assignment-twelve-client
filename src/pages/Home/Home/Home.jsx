@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
- import Banner from "../Banner/Banner";
+  import Banner from "../Banner/Banner";
 import HeroSection from "../../../components/HeroSection";
 import HouseSection from "../../../components/HouseSection";
 import RealEstateCard from "../../../components/RealEstateCard";
@@ -16,7 +16,7 @@ const Home = () => {
         <meta name="description" content="Helmet application" />
       </Helmet>
         <div className="">
-        <Banner></Banner>
+         <Banner></Banner> 
         <Advertisement></Advertisement>
         <LatestReviews></LatestReviews>
         <HeroSection></HeroSection>

@@ -7,6 +7,7 @@ import Advertisement from "../Advertisement";
 import LatestReviews from "../../../components/LatestReviews";
 import Contact from "../../../components/Contact";
 import FeatureSection from "../../../components/CardSection/FeatureSection";
+import Brand from "../../../components/Brand/Brand";
 
 
 const Home = () => {
@@ -25,6 +26,7 @@ const Home = () => {
         <HouseSection></HouseSection>
         <RealEstateCard></RealEstateCard>
         <Contact></Contact>
+        <Brand></Brand>
             
         </div>
         </>

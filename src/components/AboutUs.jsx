@@ -9,7 +9,7 @@ const AboutUs = () => {
   return (
     <>
 
-    <div className="bg-lime-50 py-8 my-8 mt-24 px-6">
+    <div className="py-8 my-8 mt-24 px-6">
       <div className="max-w-5xl mx-auto">
       <SectionTitle
           heading="Welcome to HouseBox"
@@ -26,9 +26,9 @@ const AboutUs = () => {
         </p>
         <div className="mt-8 text-left max-w-xl mx-auto">
           <h3 className="text-4xl font-semibold mb-4">Frequently Asked Questions</h3>
-          <div className="border-b pb-4">
+          <div className="border-b pb-4 mt-4">
             <button 
-              className="w-full text-left text-lgfont-medium focus:outline-none"
+              className="w-full text-left text-lg font-medium focus:outline-none"
               onClick={toggleDropdown}
             >
               What is HouseBox?

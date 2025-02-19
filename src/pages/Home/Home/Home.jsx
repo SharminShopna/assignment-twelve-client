@@ -19,6 +19,7 @@ const Home = () => {
       </Helmet>
         <div className="">
          <Banner></Banner> 
+         <div className="w-11/12 mx-auto">
         <Advertisement></Advertisement>
         <LatestReviews></LatestReviews>
         <HeroSection></HeroSection>
@@ -27,6 +28,7 @@ const Home = () => {
         <RealEstateCard></RealEstateCard>
         <Brand></Brand>
         <Contact></Contact>
+        </div>
         
             
         </div>

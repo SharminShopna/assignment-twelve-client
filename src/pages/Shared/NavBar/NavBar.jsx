@@ -7,9 +7,25 @@ import logo from "../../../assets/logo1.jpg";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 import useAuth from "../../../hooks/useAuth";
-
+import { BsSun, BsMoon } from "react-icons/bs";
+import { useState } from "react";
+import { useEffect } from "react";
+import '../../../App.css'
 const NavBar = () => {
     const { user, logOut } = useAuth()
+    const [darkMode,setDarkMode] = useState(()=>{
+      return localStorage.getItem('them')==='dark'
+    })
+    useEffect(()=>{
+      if(darkMode){
+        document.documentElement.classList.add('dark')
+        localStorage.setItem('them', 'dark')
+      }
+      else{
+        document.documentElement.classList.remove('dark')
+        localStorage.setItem('them', 'light')
+      }
+    })
     const links = (
         <>
           <li>
@@ -105,11 +121,11 @@ const NavBar = () => {
           )}
 
           
-          {/* {location.pathname === "/" && (
-            <button onClick={toggleDarkMode} className="btn bg-blue-900 text-white">
-              {isDarkMode ? <FaSun /> : <FaMoon />}
+         
+            <button onClick={()=> setDarkMode(!darkMode)} className="btn bg-lime-700 text-white">
+              {darkMode ? <BsSun /> : <BsMoon />}
             </button>
-          )} */}
+          
         </div> 
       </div>
     </div>

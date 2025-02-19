@@ -29,7 +29,7 @@ const LatestReviews = () => {
             </div>
             <div className="grid lg:grid-cols-4 gap-4">
                 {reviews?.map((review, index) => (
-                    <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <div key={index} className=" p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                         <div className="flex items-center mb-3">
                             <img
                                 src={review.image}

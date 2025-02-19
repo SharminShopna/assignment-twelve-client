@@ -217,7 +217,7 @@ const Dashboard = () => {
                                         Offer Property
                                     </NavLink>
                                 </li>
-                                <li>
+                                 <li>
                                     <NavLink
                                         to='/dashboard/becomeAgent'
                                         className={({ isActive }) =>
@@ -229,7 +229,7 @@ const Dashboard = () => {
 
                                         Become A Agent
                                     </NavLink>
-                                </li>
+                                </li> 
                                 {/* profile */}
                                 <li>
                                     <NavLink

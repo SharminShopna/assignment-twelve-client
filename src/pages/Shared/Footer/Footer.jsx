@@ -21,6 +21,7 @@ const Footer = () => {
                     <Link to="/allProperties" className="link link-hover">All Property</Link>
                     <Link to="/contactUs" className="link link-hover">Contact Us</Link>
                     <Link to="/" className="link link-hover">Services</Link>
+                    <Link to="/aboutUs" className="link link-hover">About Us</Link>
                 </nav>
                 <nav>
                     <h6 className="footer-title">Contact</h6>

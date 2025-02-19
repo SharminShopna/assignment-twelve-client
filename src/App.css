@@ -8,3 +8,7 @@
   .image:hover .name{
     visibility: visible;
   }
+  .dark{
+    background-color: black;
+    color: white;
+  }

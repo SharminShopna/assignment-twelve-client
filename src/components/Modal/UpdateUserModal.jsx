@@ -13,7 +13,7 @@ import {
 } from '@headlessui/react'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineDown } from 'react-icons/ai'
-const roles = ['customer', 'agent', 'admin']
+const roles = ['customer', 'agent', 'admin', 'fraud', '', '']
 
 const UpdateUserModal = ({ setIsOpen, isOpen, role, updateRole, userEmail }) => {
   const [selected, setSelected] = useState(role)
@@ -38,7 +38,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen, role, updateRole, userEmail }) => 
         </TransitionChild>
 
         <div className='fixed inset-0 overflow-y-auto'>
-          <div className='flex min-h-full items-center justify-center p-4 text-center'>
+          <div className='flex min-h-full items-center justify-center p-4 pb-20 text-center'>
             <TransitionChild
               as={Fragment}
               enter='ease-out duration-300'
@@ -48,7 +48,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen, role, updateRole, userEmail }) => 
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <DialogPanel className='w-full h-56 max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+              <DialogPanel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                 <DialogTitle
                   as='h3'
                   className='text-lg font-medium text-center leading-6 text-gray-900'

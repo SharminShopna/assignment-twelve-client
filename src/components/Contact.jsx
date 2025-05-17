@@ -33,7 +33,8 @@ const Contact = () => {
     };
 
     return (
-        <><div className='my-10 mt-32'>
+        <>
+        <div className='my-10 mt-32'>
             <SectionTitle
                 heading="Contact Us"
                 subHeading="Feel free to ask us any questions, we’re here to help"
